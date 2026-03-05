@@ -1,6 +1,45 @@
+# --- Vivado Project Files ---
+# Ignore the entire project directory's generated content
 *.jou
 *.log
 *.str
+*.backup
+
+# --- Directories to Ignore ---
+# These contain generated bitstreams, netlists, and hardware exports
+/.Xil/
+/hd_visual/
+*.dir/
+/runs/
+/results/
+/ip_user_files/
+/hw_handoff/
+/sim/
+/srcs/ipshared/
+
+# --- Simulation and Synthesis outputs ---
+# Ignore simulation snapshots and waveform databases
+*.wdb
+*.pb
+*.vdi
+*.jou
+*.log
+xsim.dir/
+xvlog.pb
+xelab.pb
+
+# --- Implementation outputs ---
+# You usually want to keep the final .bit or .mcs, 
+# but ignore the intermediate implementation files.
+# If you want to version your bitstream, comment out the line below.
+*.bit
+*.bin
+*.mcs
+*.prm
+
+# --- Manual add ---
+hw1_sorter/rtl/sorter/sorter.sim/sim_1/behav/xsim
+hw1_sorter/rtl/sorter/sorter.ip_user_files
+hw1_sorter/rtl/sorter/sorter.cache
+hw1_sorter/rtl/sorter/sorter.hw
 *.xpr
-*.wpc
-*.lpr
