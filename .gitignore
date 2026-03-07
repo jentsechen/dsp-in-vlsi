@@ -38,7 +38,8 @@ xelab.pb
 *.prm
 
 # --- Manual add ---
-hw1_sorter/rtl/sorter/sorter.sim/sim_1/behav/xsim
+hw1_sorter/rtl/sorter/sorter.sim
+hw1_sorter/rtl/sorter/sorter.runs
 hw1_sorter/rtl/sorter/sorter.ip_user_files
 hw1_sorter/rtl/sorter/sorter.cache
 hw1_sorter/rtl/sorter/sorter.hw
