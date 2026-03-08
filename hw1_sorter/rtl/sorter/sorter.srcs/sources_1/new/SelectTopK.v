@@ -12,9 +12,9 @@ module SelectTopK # (
     Sort8 #(WIDTH) sort0 (clk, rst_n, In1, In2, In3, In4, In5, In6, In7, In8, sort_out[0], sort_out[1], sort_out[2], sort_out[3], sort_out[4], sort_out[5], sort_out[6], sort_out[7]);
     reg signed [WIDTH-1:0]  reg8_set0[3:0][7:0], reg8_set1[3:0][7:0];
     
-    wire write_en, write_buf_index, out_rank_valid;
+    wire write_en, write_buf_index, out_valid;
     wire [1:0] write_cnt;
-    merge_sort_fsm fsm0 (clk, rst_n, BlkIn, write_en, write_buf_index, write_cnt, out_rank_valid);
+    merge_sort_fsm fsm0 (clk, rst_n, BlkIn, write_en, write_buf_index, write_cnt, out_valid);
     
     integer i, j;
     always @(posedge clk or negedge rst_n) begin
@@ -68,6 +68,6 @@ module SelectTopK # (
     assign merge_in_2 = (write_buf_index==0) ? reg8_set1[2][ptr[2]] : reg8_set0[2][ptr[2]]; // read buf. 0 when write buf. 1
     assign merge_in_3 = (write_buf_index==0) ? reg8_set1[3][ptr[3]] : reg8_set0[3][ptr[3]]; // read buf. 0 when write buf. 1
     max_index_finder #(WIDTH) max0 (merge_in_0, merge_in_1, merge_in_2, merge_in_3, max_index);
-    assign SortOut = (write_buf_index==0) ? reg8_set1[max_index][ptr[max_index]] : reg8_set0[max_index][ptr[max_index]]; // read buf. 0 when write buf. 1
-    assign OutRank = (out_rank_valid) ? write_cnt : 2'd0;
+    assign SortOut = out_valid ? ((write_buf_index==0) ? reg8_set1[max_index][ptr[max_index]] : reg8_set0[max_index][ptr[max_index]]) : 0; // read buf. 0 when write buf. 1
+    assign OutRank = out_valid ? write_cnt : 2'd0;
 endmodule

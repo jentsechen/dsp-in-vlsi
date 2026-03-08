@@ -5,7 +5,7 @@ module merge_sort_fsm (
     output write_en,
     output write_buf_index,
     output [1:0] write_cnt,
-    output out_rank_valid
+    output out_valid
 );
 
     localparam IDLE      = 2'b00;
@@ -107,5 +107,5 @@ module merge_sort_fsm (
     assign write_en = (current_state == WriteBuf0 || current_state == WriteBuf1);
     assign write_buf_index = (current_state == WriteBuf0) ? 0 : 1;
     assign write_cnt     = internal_write_cnt;
-    assign out_rank_valid = (current_state == WriteBuf0 || current_state == WriteBuf1) && first_trans_flag==0 && blk_cnt>0;
+    assign out_valid = (current_state == WriteBuf0 || current_state == WriteBuf1) && first_trans_flag==0 && blk_cnt>0;
 endmodule
