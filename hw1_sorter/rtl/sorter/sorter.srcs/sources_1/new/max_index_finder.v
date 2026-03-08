@@ -1,14 +1,16 @@
-module max_index_finder (
-    input signed [15:0] val0,
-    input signed [15:0] val1,
-    input signed [15:0] val2,
-    input signed [15:0] val3,
+module max_index_finder # (
+    parameter WIDTH = 9
+) (
+    input signed [WIDTH-1:0] val0,
+    input signed [WIDTH-1:0] val1,
+    input signed [WIDTH-1:0] val2,
+    input signed [WIDTH-1:0] val3,
     output reg [1:0] max_index
 );
 
-    reg signed [15:0] upper_winner;
+    reg signed [WIDTH-1:0] upper_winner;
     reg [1:0] upper_idx;
-    reg signed [15:0] lower_winner;
+    reg signed [WIDTH-1:0] lower_winner;
     reg [1:0] lower_idx;
 
     always @* begin
