@@ -31,11 +31,11 @@ module SelectTopK # (
             if (write_en) begin
                 if (write_buf_index==0) begin
                     for (j = 0; j < 8; j = j + 1) begin
-                        reg8_set0[write_cnt][j] <= sort_out[7-j];
+                        reg8_set0[write_cnt][j] <= sort_out[j];
                     end
                 end else begin
                     for (j = 0; j < 8; j = j + 1) begin
-                        reg8_set1[write_cnt][j] <= sort_out[7-j];
+                        reg8_set1[write_cnt][j] <= sort_out[j];
                     end
                 end
             end else begin

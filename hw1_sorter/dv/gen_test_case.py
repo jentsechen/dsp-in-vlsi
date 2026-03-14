@@ -4,6 +4,7 @@ def gen_test_case(n_block, seed=123):
     n_group, n_element_per_group = 4, 8
     np.random.seed(seed)
     input = np.random.randint(-256, 256, size=(n_block, n_group, n_element_per_group))
+    # SelectTopK
     with open("..\\rtl\\sorter\\sorter.sim\\sim_SelectTopK\\behav\\xsim\\input.txt", "w") as file:
         for block_index in range(n_block):
             for group_index in range(n_group):
@@ -16,9 +17,20 @@ def gen_test_case(n_block, seed=123):
                     input_str += f"{input[block_index][group_index][element_index]} "
                 input_str += "\n"
                 file.write(input_str)
+    print("Golden of SelectTopK:")
     for block_index in range(n_block):
         sorted_values = np.sort(input[block_index].flatten())
-        print(f"block {block_index}: {sorted_values[-4:][::-1]}")
+        print(f"Block {block_index}: {sorted_values[-4:][::-1]}")
+
+    # Sort8
+    input_str = ""
+    with open("..\\rtl\\sorter\\sorter.sim\\sim_Sort8\\behav\\xsim\\input.txt", "w") as file:
+        for element_index in range(n_element_per_group):
+            input_str += f"{input[0][0][element_index]} "
+        input_str += "\n"
+        file.write(input_str)
+    sorted_values = np.sort(input[0][0].flatten())
+    print(f"Golden of Sort8: {sorted_values[::-1]}")
 
 if __name__ == "__main__":
     gen_test_case(n_block=4)

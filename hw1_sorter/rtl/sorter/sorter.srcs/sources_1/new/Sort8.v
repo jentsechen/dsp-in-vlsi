@@ -90,9 +90,9 @@ module Sort8 #(
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            {out0,out1,out2,out3,out4,out5,out6,out7} <= 0;
+            {out7,out6,out5,out4,out3,out2,out1,out0} <= 0;
         end else begin
-            {out0,out1,out2,out3,out4,out5,out6,out7} <= {w6[0],w6[1],w6[2],w6[3],w6[4],w6[5],w6[6],w6[7]};
+            {out7,out6,out5,out4,out3,out2,out1,out0} <= {w6[0],w6[1],w6[2],w6[3],w6[4],w6[5],w6[6],w6[7]};
         end
     end
 
