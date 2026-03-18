@@ -47,3 +47,6 @@ hw1_sorter/rtl/sorter/sorter.srcs/utils_1/imports/synth_1/Sort8.dcp
 *.xpr
 
 hw1_sorter/diagram/*.bkp
+
+hw2_digital_filter/verification/__pycache__/
+hw2_digital_filter/verification/figure/
