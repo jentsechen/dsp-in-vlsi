@@ -5,15 +5,17 @@ from plotly.subplots import make_subplots
 from scipy import signal
 
 class FilterCoef:
-    def __init__(self, n_taps=25, boundary=2):
-        self.v = self.gen_filter_coef(n_taps=n_taps, boundary=boundary)
+    def __init__(self, n_taps=25, boundary=2, norm_en=False):
+        self.v = self.gen_filter_coef(n_taps=n_taps, boundary=boundary, norm_en=norm_en)
         self.plot_filter_coef()
         self.plot_filter_freq_resp()
 
-    def gen_filter_coef(self, n_taps, boundary):
+    def gen_filter_coef(self, n_taps, boundary, norm_en):
         t = np.linspace(-boundary, boundary, n_taps)
         sinc_out = np.sinc(t)
-        return sinc_out / sum(sinc_out)
+        if norm_en == True:
+            return sinc_out / sum(sinc_out)
+        return sinc_out
         
     def plot_filter_coef(self):
         figure = make_subplots(rows=1, cols=1)
