@@ -38,15 +38,17 @@ xelab.pb
 *.prm
 
 # --- Manual add ---
-hw1_sorter/rtl/sorter/sorter.sim
-hw1_sorter/rtl/sorter/sorter.runs
-hw1_sorter/rtl/sorter/sorter.ip_user_files
-hw1_sorter/rtl/sorter/sorter.cache
-hw1_sorter/rtl/sorter/sorter.hw
 hw1_sorter/rtl/sorter/sorter.srcs/utils_1/imports/synth_1/Sort8.dcp
 *.xpr
 
 hw1_sorter/diagram/*.bkp
+
+*.sim/
+*.runs/
+*.ip_user_files/
+*.cache/
+*.hw/
+
 
 hw2_digital_filter/verification/__pycache__/
 hw2_digital_filter/verification/figure/

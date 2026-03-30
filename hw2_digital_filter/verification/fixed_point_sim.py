@@ -8,7 +8,7 @@ from fir_filter import FirFilter, QntzFormat, QntzFormatSet, Mode
 
 
 class FixedPointSim:
-    def __init__(self):
+    def __init__(self, print_int_bit_en=False):
         self.filter_coef = FilterCoef().v
         self.input = self.gen_input()
         self.plot_input()
@@ -18,7 +18,8 @@ class FixedPointSim:
             input=self.input, qntz_format_set=QntzFormatSet(), det_int_bit_en=True
         )
         self.plot_output()
-        self.filter.max_val_sel.get_int_bit_set()
+        if print_int_bit_en:
+            self.filter.max_val_sel.get_int_bit_set()
 
     def gen_input(self):
         n = np.arange(0, 144)

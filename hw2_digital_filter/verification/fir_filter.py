@@ -2,17 +2,11 @@ import numpy as np
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 from enum import Enum, auto
+from qntz_model import QntzModel, QntzFormat
 
 
 class Mode(Enum):
     INPUT, COEF, MULT, ADD = auto(), auto(), auto(), auto()
-
-
-class QntzFormat:
-    def __init__(self, fix_en=False, int_bit=15, frac_bit=16):
-        self.fix_en = fix_en
-        self.int_bit = int_bit
-        self.frac_bit = frac_bit
 
 
 class QntzFormatSet:
@@ -67,8 +61,9 @@ class MaxValSet:
         print(f"int bit of add: {self.find_int_bit(self.add)}")
 
 
-class FirFilter:
+class FirFilter(QntzModel):
     def __init__(self, coef):
+        super().__init__()
         assert len(coef) % 2 == 1
         self.coef = coef
         self.ramp_len = int((len(self.coef) - 1) / 2)
@@ -94,6 +89,8 @@ class FirFilter:
 
         output = []
         for i in range(len(input) + len(self.coef) - 1):
+            # if i < 5:
+            #     print(input_pad[i : (i + len(self.coef))])
             mult_out = input_pad[i : (i + len(self.coef))] * coef
             if det_int_bit_en:
                 self.max_val_sel.apply(data_vec=mult_out, mode=Mode.MULT)
@@ -124,12 +121,3 @@ class FirFilter:
 
     def apply_ref_model(self, input):
         return np.convolve(a=input, v=self.coef)[self.ramp_len : -self.ramp_len]
-
-    def quantizer(self, input, frac_bit):
-        return np.floor(input * 2**frac_bit) / 2**frac_bit
-
-    def quantizer_arr(self, input_arr, frac_bit):
-        output_array = []
-        for input in input_arr:
-            output_array.append(self.quantizer(input, frac_bit))
-        return np.array(output_array)
