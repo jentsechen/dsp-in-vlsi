@@ -49,7 +49,7 @@ class FilterCoef:
         )
         figure.update_layout(
             xaxis=dict(title=r"$\text{frequency (}\pi\text{ rad)}$"),
-            yaxis=dict(title="magnitude"),
+            yaxis=dict(title="magnitude (dB)"),
             yaxis_range=[max_yaxis_range - 60, max_yaxis_range],
             xaxis2=dict(title=r"$\text{frequency (}\pi\text{ rad)}$"),
             yaxis2=dict(title="phase (rad)"),

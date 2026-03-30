@@ -1,7 +1,9 @@
 import numpy as np
 from fixed_point_sim import FixedPointSim, Mode
 from fir_filter import FirFilter, QntzFormat, QntzFormatSet
-
+import plotly.graph_objs as go
+from plotly.subplots import make_subplots
+from scipy import signal
 
 def qntz_anal():
     simulator = FixedPointSim()
@@ -41,7 +43,7 @@ def qntz_anal():
 if __name__ == "__main__":
     # qntz_anal()
     simulator = FixedPointSim()
-    simulator.plot_qntz_result(
+    simulator.plot_qntz_output_in_time(
         qntz_format_set=QntzFormatSet(
             input=QntzFormat(fix_en=True, frac_bit=13),
             coef=QntzFormat(fix_en=True, frac_bit=15),
@@ -49,3 +51,4 @@ if __name__ == "__main__":
             add=QntzFormat(fix_en=True, frac_bit=18),
         )
     )
+    simulator.plot_qntz_filter_in_freq(frac_bit=15)
