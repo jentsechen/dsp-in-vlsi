@@ -5,6 +5,10 @@ from plotly.subplots import make_subplots
 from scipy import signal
 from filter_coef import FilterCoef
 from fir_filter import FirFilter, QntzFormat, QntzFormatSet
+from enum import Enum, auto
+
+class Mode(Enum):
+    INPUT, COEF, MULT, ADD = auto(), auto(), auto(), auto()
 
 class FixedPointSim:
     def __init__(self):
@@ -12,8 +16,8 @@ class FixedPointSim:
         self.input = self.gen_input()
         self.plot_input()
         self.filter = FirFilter(self.filter_coef)
-        self.ref_output = self.filter.apply_ref_model(self.input)
-        self.output = self.filter.apply(self.input)
+        self.ref_output = self.filter.apply_ref_model(input=self.input)
+        self.output = self.filter.apply(input=self.input, qntz_format_set=QntzFormatSet())
         self.plot_output()
         
     def gen_input(self):
@@ -29,10 +33,6 @@ class FixedPointSim:
             font=dict(size=20)
         )
         figure.write_html("./figure/input.html")
-
-    # def apply_filter(self):
-    #     filter = FirFilter(self.filter_coef)
-    #     return filter.apply_ref_model(self.input)
     
     def plot_output(self):
         figure = make_subplots(rows=1, cols=1)
@@ -54,13 +54,21 @@ class FixedPointSim:
         )
         figure.write_html("./figure/output.html")
 
-    def plot_input_qntz(self):
-        output_ft = self.filter.apply(self.input)
-        frac_bit_list = np.arange(9, 16)
+    def plot_qntz(self, mode: Mode, qntz_format_set: QntzFormatSet):
+        output_ft = self.filter.apply(input=self.input, qntz_format_set=QntzFormatSet())
+        qntz_format_set_iter = qntz_format_set
+        frac_bit_list = np.arange(9, 21)
         error = []
         for f in frac_bit_list:
-            qntz_format_set = QntzFormatSet(input=QntzFormat(fix_en=True, int_bit=1, frac_bit=f))
-            output_fx = self.filter.apply(self.input, qntz_format_set)
+            if mode == Mode.INPUT:
+                qntz_format_set_iter.input.frac_bit = f
+            elif mode == Mode.COEF:
+                qntz_format_set_iter.coef.frac_bit = f
+            elif mode == Mode.MULT:
+                qntz_format_set_iter.mult.frac_bit = f
+            else: # mode == Mode.ADD
+                qntz_format_set_iter.add.frac_bit = f
+            output_fx = self.filter.apply(input=self.input, qntz_format_set=qntz_format_set_iter)
             error.append(self.calc_rmse(output_fx, output_ft))
         figure = make_subplots(rows=1, cols=1)
         figure.add_trace(go.Scatter(x=frac_bit_list, y=error,
@@ -69,16 +77,20 @@ class FixedPointSim:
                                     color='blue',
                                     dash='solid')), row=1, col=1)
         figure.add_hline(
-            y=2**-11, 
+            y=2**-11,
+            annotation_text="2⁻¹¹",
+            annotation_font_color="red",
             line_dash="dash", 
             line_color="red",
             row=1, col=1
         )
         figure.update_layout(
             xaxis=dict(title="word length"),
+            # yaxis=dict(title="RMSE (log scale)", type="log"),
+            yaxis=dict(title="RMSE"),
             font=dict(size=20)
         )
-        figure.write_html("./figure/input_qntz.html")
+        figure.write_html(f"./figure/qntz_result_{str(mode.name).lower()}.html")
 
     def calc_rmse(self, a, b):
         assert len(a) == len(b)

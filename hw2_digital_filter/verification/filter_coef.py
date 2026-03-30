@@ -13,7 +13,7 @@ class FilterCoef:
     def gen_filter_coef(self, n_taps, boundary, norm_en):
         t = np.linspace(-boundary, boundary, n_taps)
         sinc_out = np.sinc(t)
-        if norm_en == True:
+        if norm_en:
             return sinc_out / sum(sinc_out)
         return sinc_out
         
