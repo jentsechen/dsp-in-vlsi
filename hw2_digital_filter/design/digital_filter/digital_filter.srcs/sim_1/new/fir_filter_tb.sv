@@ -19,6 +19,7 @@ module fir_filter_tb;
     logic rst_n;
     logic signed [INPUT_WIDTH-1:0]   FilterIn;
     logic signed [ADD_WIDTH-1:0]  FilterOut;
+    logic ValidIn, ValidOut;
 
     // 3. Instantiate Unit Under Test (UUT)
     fir_filter #(
@@ -28,7 +29,9 @@ module fir_filter_tb;
         .clk(clk),
         .rst_n(rst_n),
         .FilterIn(FilterIn),
-        .FilterOut(FilterOut)
+        .ValidIn(ValidIn),
+        .FilterOut(FilterOut),
+        .ValidOut(ValidOut)
     );
 
     // 4. Clock Generation (100MHz)
@@ -41,6 +44,7 @@ module fir_filter_tb;
         // Initialize
         rst_n   = 0;
         FilterIn = 0;
+        ValidIn = 0;
 
         // Reset sequence
         #20 rst_n = 1;
@@ -52,12 +56,16 @@ module fir_filter_tb;
             $finish;
         end
         
-
         while (!$feof(file_ptr)) begin
             $fscanf(file_ptr, "%d\n", FilterIn_t);
             @(posedge clk);
             FilterIn <= FilterIn_t;
+            ValidIn <= 1;
         end
+        
+        @(posedge clk);
+        FilterIn <= 0; ValidIn <= 0;
+        repeat (30) @(posedge clk);
 
         $finish;
     end

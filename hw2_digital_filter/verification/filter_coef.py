@@ -20,7 +20,7 @@ class FilterCoef:
     def plot_filter_coef(self):
         figure = make_subplots(rows=1, cols=1)
         figure.add_trace(go.Scatter(y=self.v, marker=dict(color="blue")), row=1, col=1)
-        figure.update_layout(xaxis=dict(title="index"), font=dict(size=20))
+        figure.update_layout(xaxis=dict(title="n"), font=dict(size=20))
         figure.write_html("./figure/filter_coef.html")
 
     def plot_filter_freq_resp(self):

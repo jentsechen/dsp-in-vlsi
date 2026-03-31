@@ -8,12 +8,15 @@ module fir_filter #(
     localparam INPUT_WIDTH = INPUT_INT + INPUT_FRAC + 1,
     localparam COEF_WIDTH  = COEF_INT + COEF_FRAC + 1,
     localparam MULT_WIDTH   = MULT_INT + MULT_FRAC + 1,
-    localparam ADD_WIDTH  = ADD_INT + ADD_FRAC + 1
+    localparam ADD_WIDTH  = ADD_INT + ADD_FRAC + 1,
+    localparam LATENCY = 15
 )(
     input  logic                   clk,
     input  logic                   rst_n,
     input  logic signed [INPUT_WIDTH-1:0] FilterIn,
-    output logic signed [ADD_WIDTH-1:0]   FilterOut
+    input logic ValidIn,
+    output logic signed [ADD_WIDTH-1:0]   FilterOut,
+    output logic ValidOut
 );
 
     // --- 1. Coefficient LUT Definition ---
@@ -93,5 +96,16 @@ module fir_filter #(
         if (!rst_n) FilterOut <= '0;
         else        FilterOut <= sum >>> SHIFT;
     end
+    
+    reg [LATENCY-1:0] delay_reg;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            delay_reg <= {LATENCY{1'b0}};
+        end else begin
+            // Shift left and insert new valid bit at the LSB
+            delay_reg <= {delay_reg[LATENCY-2:0], ValidIn};
+        end
+    end
+    assign ValidOut = delay_reg[LATENCY-1];
 
 endmodule

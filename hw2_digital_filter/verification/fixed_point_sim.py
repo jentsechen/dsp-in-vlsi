@@ -30,27 +30,32 @@ class FixedPointSim:
         figure.add_trace(
             go.Scatter(y=self.input, marker=dict(color="blue")), row=1, col=1
         )
-        figure.update_layout(xaxis=dict(title="index"), font=dict(size=20))
+        figure.update_layout(xaxis=dict(title="n"), font=dict(size=20))
         figure.write_html("./figure/input.html")
 
     def plot_output(self):
         figure = make_subplots(rows=1, cols=1)
+        # figure.add_trace(
+        #     go.Scatter(y=self.input * sum(self.filter.coef), marker=dict(color="blue")),
+        #     row=1,
+        #     col=1,
+        # )
+        # figure.add_trace(
+        #     go.Scatter(y=self.ref_output, marker=dict(color="red")), row=1, col=1
+        # )
+        # figure.add_trace(
+        #     go.Scatter(
+        #         y=self.output, mode="lines", line=dict(color="orange", dash="dash")
+        #     ),
+        #     row=1,
+        #     col=1,
+        # )
         figure.add_trace(
-            go.Scatter(y=self.input * sum(self.filter.coef), marker=dict(color="blue")),
+            go.Scatter(y=self.output, mode="lines", line=dict(color="blue")),
             row=1,
             col=1,
         )
-        figure.add_trace(
-            go.Scatter(y=self.ref_output, marker=dict(color="red")), row=1, col=1
-        )
-        figure.add_trace(
-            go.Scatter(
-                y=self.output, mode="lines", line=dict(color="orange", dash="dash")
-            ),
-            row=1,
-            col=1,
-        )
-        figure.update_layout(xaxis=dict(title="index"), font=dict(size=20))
+        figure.update_layout(xaxis=dict(title="n"), font=dict(size=20))
         figure.write_html("./figure/output.html")
 
     def plot_qntz_anal(self, mode: Mode, qntz_format_set: QntzFormatSet):
@@ -113,7 +118,7 @@ class FixedPointSim:
             row=1,
             col=1,
         )
-        figure.update_layout(font=dict(size=20))
+        figure.update_layout(xaxis=dict(title="n"), font=dict(size=20))
         figure.write_html("./figure/qntz_output_in_time.html")
 
         figure = make_subplots(rows=1, cols=1)
@@ -122,7 +127,9 @@ class FixedPointSim:
             row=1,
             col=1,
         )
-        figure.update_layout(font=dict(size=20))
+        figure.update_layout(
+            xaxis=dict(title="n"), font=dict(size=20)
+        )
         figure.write_html("./figure/qntz_output_error_in_time.html")
 
     def plot_qntz_filter_in_freq(self, frac_bit):
@@ -189,7 +196,9 @@ class FixedPointSim:
             ],
             font=dict(size=20),
         )
-        figure.write_html("./figure/qntz_filter_error_in_freq.html", include_mathjax="cdn")
+        figure.write_html(
+            "./figure/qntz_filter_error_in_freq.html", include_mathjax="cdn"
+        )
 
     def calc_mag_resp(self, waveform_in_time):
         w, H = signal.freqz(waveform_in_time, worN=8000)
