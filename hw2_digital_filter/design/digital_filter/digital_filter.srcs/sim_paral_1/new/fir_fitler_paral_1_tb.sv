@@ -39,7 +39,7 @@ module fir_filter_tb;
     always #5 clk = ~clk;
 
     // 5. Stimulus Procedure
-    integer file_ptr, FilterIn_t;
+    integer in_file_ptr, FilterIn_t;
     initial begin
         // Initialize
         rst_n   = 0;
@@ -50,14 +50,14 @@ module fir_filter_tb;
         #20 rst_n = 1;
         #10;
         
-        file_ptr = $fopen("input.txt", "r");
-        if (file_ptr == 0) begin
+        in_file_ptr = $fopen("input.txt", "r");
+        if (in_file_ptr == 0) begin
             $display("Error: Could not open input file.");
             $finish;
         end
         
-        while (!$feof(file_ptr)) begin
-            $fscanf(file_ptr, "%d\n", FilterIn_t);
+        while (!$feof(in_file_ptr)) begin
+            $fscanf(in_file_ptr, "%d\n", FilterIn_t);
             @(posedge clk);
             FilterIn <= FilterIn_t;
             ValidIn <= 1;
@@ -67,7 +67,28 @@ module fir_filter_tb;
         FilterIn <= 0; ValidIn <= 0;
         repeat (30) @(posedge clk);
 
-        $finish;
+//        $finish;
+    end
+    
+//    integer out_file_ptr;
+//    initial begin
+//        out_file_ptr = $fopen("output.txt", "r");
+//        if (out_file_ptr == 0) begin
+//            $display("Error: Could not open output file.");
+//            $finish;
+//        end
+//    end
+    
+//    always @(posedge clk) begin
+//        if (ValidOut && out_file_ptr != 0) begin
+//            $fdisplay(out_file_ptr, "%d\n", FilterOut);
+//        end
+//    end
+    
+    always @(posedge clk) begin
+        if (ValidOut) begin
+            $display("%d", FilterOut);
+        end
     end
 
 endmodule

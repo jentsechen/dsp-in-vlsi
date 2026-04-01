@@ -5,6 +5,11 @@ from plotly.subplots import make_subplots
 from scipy import signal
 from filter_coef import FilterCoef
 from fir_filter import FirFilter, QntzFormat, QntzFormatSet, Mode
+from enum import Enum, auto
+
+
+class FuncVeriMode(Enum):
+    RTL_PARAL_1, GL_PARAL_1, GL_PARAL_2 = auto(), auto(), auto()
 
 
 class FixedPointSim:
@@ -127,9 +132,7 @@ class FixedPointSim:
             row=1,
             col=1,
         )
-        figure.update_layout(
-            xaxis=dict(title="n"), font=dict(size=20)
-        )
+        figure.update_layout(xaxis=dict(title="n"), font=dict(size=20))
         figure.write_html("./figure/qntz_output_error_in_time.html")
 
     def plot_qntz_filter_in_freq(self, frac_bit):
@@ -209,3 +212,71 @@ class FixedPointSim:
     def calc_rmse(self, a, b):
         assert len(a) == len(b)
         return np.sqrt(np.sum((a - b) ** 2) / len(b))
+
+    def plot_func_verification(self, func_veri_mode: FuncVeriMode):
+        data_file_path = "./func_verification/"
+        if func_veri_mode == FuncVeriMode.RTL_PARAL_1:
+            file_name = "rtl_sim_paral_1"
+            sim_name = "RTL sim., 1-paral"
+        elif func_veri_mode == FuncVeriMode.GL_PARAL_1:
+            file_name = "gl_sim_paral_1"
+            sim_name = "post syn. sim., 1-paral"
+        elif func_veri_mode == FuncVeriMode.GL_PARAL_2:
+            file_name = "gl_sim_paral_2"
+            sim_name = "post syn. sim., 2-paral"
+        else:
+            print("Function verification mode is not supported!")
+            exit()
+
+        golden = self.output
+
+        if func_veri_mode == FuncVeriMode.GL_PARAL_2:
+            result = []
+            with open(f"{data_file_path}{file_name}.txt", "r") as file:
+                for line in file:
+                    line = line.strip()
+                    if line:
+                        values = line.split()
+                        for value in values:
+                            result.append(int(value) / 2**18)
+            result = np.array(result)
+            result = np.concatenate([[None] * 14, result])
+        else:
+            result = []
+            with open(f"{data_file_path}{file_name}.txt", "r") as file:
+                for line in file:
+                    line = line.strip()
+                    if line:
+                        result.append(int(line) / 2**18)
+            result = np.array(result)
+            if func_veri_mode == FuncVeriMode.GL_PARAL_1:
+                result = np.concatenate([[None] * 7, result])
+
+        figure = make_subplots(rows=1, cols=1)
+        figure.add_trace(
+            go.Scatter(y=golden, name="floating point"),
+            row=1,
+            col=1,
+        )
+        figure.add_trace(
+            go.Scatter(y=result, name=f"{sim_name}"),
+            row=1,
+            col=1,
+        )
+        figure.update_layout(xaxis=dict(title="n"), font=dict(size=20))
+        figure.write_html(f"./figure/func_verification/{file_name}.html")
+
+        if func_veri_mode == FuncVeriMode.GL_PARAL_1:
+            error = np.concatenate([[None] * 7, golden[7:] - result[7:]])
+        elif func_veri_mode == FuncVeriMode.GL_PARAL_2:
+            error = np.concatenate([[None] * 14, golden[14:] - result[14:]])
+        else:
+            error = golden - result
+        figure = make_subplots(rows=1, cols=1)
+        figure.add_trace(
+            go.Scatter(y=error),
+            row=1,
+            col=1,
+        )
+        figure.update_layout(xaxis=dict(title="n"), font=dict(size=20))
+        figure.write_html(f"./figure/func_verification/{file_name}_error.html")
