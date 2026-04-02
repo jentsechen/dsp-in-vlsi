@@ -1,0 +1,92 @@
+\documentclass{article}
+\usepackage{graphicx}
+\graphicspath{ {../diagram/} }
+\usepackage[margin=2cm]{geometry}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\title{DSP in VLSI \\ Homework 3 - Interpolator}
+\author{Jen-Tse Chen}
+\date{April 2026}
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+    \item (Step 1) Show the real-part and imaginary-part output waveform $\hat{x}_1[m+\mu]$ after interpolation using linear interpolator and second-order polynomial interpolator to interpolate the sampled waveform in the region of $10 \leq m \leq 20$ with $\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$. In addition, draw the absolute error, defined by $|x_1[m+\mu] - \hat{x}_1[m+\mu]|$ in the region of $10 \leq m \leq 20$ with $\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$. (30\%)
+
+    Answer text here.
+
+    \newpage
+    \item (Step 2) Show the real-part and imaginary-part output waveform of $\hat{x}_2[m+\mu]$ after interpolation using linear interpolator and piecewise parabolic interpolator to interpolate the sampled waveform in the region of $5 \leq m \leq 10$ with $\mu = 0, \frac{1}{9}, \frac{2}{9}, \ldots\frac{8}{9}$. In addition, draw the absolute error, defined by $|x_2[m+\mu] - \hat{x}_2[m+\mu]|$ in the region of $4 \leq m \leq 8$ with $\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$. (30\%)
+
+    Answer text here.
+
+    \newpage
+    \item (Step 3) Please show the results calculated by your BF16 bit-true model for the following operands and operators. Express results both in decimal and binary representation. (S, E, F mean the sign bit, exponent field, and fraction field. All are given in binary.) (20\%)
+
+    \begin{table}[htbp]
+        \centering
+        \begin{tabular}{|l|l|l|l|}
+            \hline
+            & \textbf{Operand 1} & \textbf{Operand 2} & \textbf{Operation} \\
+            \hline
+            \multirow{3}{*}{(a)} & S: 1             & S: 0             & \multirow{3}{*}{Addition} \\
+                                 & E: 1000\_0011    & E: 1000\_1011    & \\
+                                 & F: 0000\_000     & F: 0000\_011     & \\
+            \hline
+            \multirow{3}{*}{(b)} & S: 1             & S: 0             & \multirow{3}{*}{Addition} \\
+                                 & E: 0000\_0001    & E: 0000\_0001    & \\
+                                 & F: 0000\_011     & F: 1111\_010     & \\
+            \hline
+            \multirow{3}{*}{(c)} & S: 1             & S: 0             & \multirow{3}{*}{Multiplication} \\
+                                 & E: 0000\_0010    & E: 0111\_1100    & \\
+                                 & F: 1100\_000     & F: 0000\_110     & \\
+            \hline
+            \multirow{3}{*}{(d)} & S: 0             & S: 0             & \multirow{3}{*}{Multiplication} \\
+                                 & E: 0110\_0011    & E: 1001\_0011    & \\
+                                 & F: 1011\_110     & F: 0101\_000     & \\
+            \hline
+        \end{tabular}
+        \caption{BF16 bit-true model computation results}
+        \label{table:bf16_results}
+    \end{table}
+
+    \newpage
+    \item (Step 4) Show the interpolation differences of the second-order interpolator using BF16 and double-precision arithmetic operations. Draw the figures indicating the difference of interpolated results caused by data format for outputs $\hat{x}_1[m+\mu]$ in the region of $10 \leq m \leq 20$ with $\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$. (10\%)
+
+    Answer text here.
+
+    \newpage
+    \item (Step 5) Draw the complete block diagram of your first version implementation according to the Farrow structure. (5\%) Show your hardware sharing version (the precision of the datapath must be BF16 and cannot be changed). (10\%) Draw the block diagram after your improvement. (5\%) Indicate the critical path. (5\%)
+
+    Answer text here.
+
+    \newpage
+    \item (Step 6) Write HDL to implement your second-order interpolator using BF16 arithmetic unit of Farrow structure after reduction. The input to be interpolated will change every 8 clock cycles and $\mu$ will change every clock cycle. Show the timing diagram of behavior simulation for the first 8 ($\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$) and the last 8 ($\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$) interpolated outputs of $\hat{x}_1[m+\mu]$ in the region of $10 \leq m \leq 20$. Show the real-part and imaginary-part error compared to double-precision results. (30\%)
+
+    Answer text here.
+
+    \newpage
+    \item (Step 6) Show your timing report to verify the critical path of your block diagram in Q5. (10\%) List your timing constraint for post-synthesis simulation. (5\%)
+
+    Answer text here.
+
+    \newpage
+    \item (Step 6) Show the timing diagram of post-synthesis simulation for the first 8 ($\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$) and the last 8 ($\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$) interpolated outputs of $\hat{x}_1[m+\mu]$ in the region of $10 \leq m \leq 20$ with $\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$. Show the real-part and imaginary-part error compared to double-precision results. (20\%)
+
+    Answer text here.
+
+    \newpage
+    \item (Step 6) Construct your BF16 bit-true model as the architecture after your improvement. Depict the real-part and imaginary-part errors of interpolated outputs of $\hat{x}_1[m+\mu]$ between the Verilog outputs and the bit-true model in the region of $10 \leq m \leq 20$ with $\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$. (20\%)
+
+    Answer text here.
+
+\end{enumerate}
+
+\end{document}
