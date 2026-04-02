@@ -1,6 +1,7 @@
 ## Recommended VSCode Extensions
 - **Ruff** (`charliermarsh.ruff`) — Python linter and formatter
 - **LaTeX Workshop** (`james-yu.latex-workshop`) — LaTeX editing, compilation, and preview
+- **Verilog-HDL/SystemVerilog** (`mshr-h.veriloghdl`) — Verilog/SystemVerilog syntax, linting, and formatting via Verible
 
 ## Writing LaTeX in VSCode
 

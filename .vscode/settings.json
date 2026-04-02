@@ -1,7 +1,19 @@
 {
+    "verilog.formatting.verilogHDL.formatter": "verible-verilog-format",
+    "verilog.formatting.systemVerilog.formatter": "verible-verilog-format",
+    "verilog.formatting.veribleVerilogFormatter.path": "C:\\Users\\xx852\\AppData\\Local\\Programs\\verible\\verible-v0.0-4053-g89d4d98a-win64\\verible-verilog-format.exe",
+    "verilog.formatting.veribleVerilogFormatter.arguments": "--port_declarations_alignment=align --named_port_alignment=align --module_net_variable_alignment=align",
+    "[systemverilog]": {
+        "editor.defaultFormatter": "mshr-h.veriloghdl",
+        "editor.formatOnSave": true
+    },
+    "[verilog]": {
+        "editor.defaultFormatter": "mshr-h.veriloghdl",
+        "editor.formatOnSave": true
+    },
     "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff",
-    "editor.formatOnSave": true
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.formatOnSave": true
     },
     "latex-workshop.latex.recipe.default": "pdflatex * 3",
     "latex-workshop.latex.clean.method": "glob",
