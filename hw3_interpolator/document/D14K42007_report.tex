@@ -20,12 +20,26 @@
 
     \item (Step 1) Show the real-part and imaginary-part output waveform $\hat{x}_1[m+\mu]$ after interpolation using linear interpolator and second-order polynomial interpolator to interpolate the sampled waveform in the region of $10 \leq m \leq 20$ with $\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$. In addition, draw the absolute error, defined by $|x_1[m+\mu] - \hat{x}_1[m+\mu]|$ in the region of $10 \leq m \leq 20$ with $\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$. (30\%)
 
-    Answer text here.
+    Figure \ref{fig:x1_interp} shows the interpolated waveform and the absolute error of the linear and second-order polynomial interpolators for $x_1[m+\mu]$.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=1.0\textwidth]{../diagram/Q1/x1_interp.png}
+        \caption{Interpolated waveform and absolute error of $\hat{x}_1[m+\mu]$}
+        \label{fig:x1_interp}
+    \end{figure}
 
     \newpage
     \item (Step 2) Show the real-part and imaginary-part output waveform of $\hat{x}_2[m+\mu]$ after interpolation using linear interpolator and piecewise parabolic interpolator to interpolate the sampled waveform in the region of $5 \leq m \leq 10$ with $\mu = 0, \frac{1}{9}, \frac{2}{9}, \ldots\frac{8}{9}$. In addition, draw the absolute error, defined by $|x_2[m+\mu] - \hat{x}_2[m+\mu]|$ in the region of $4 \leq m \leq 8$ with $\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$. (30\%)
 
-    Answer text here.
+    Figure \ref{fig:x2_interp} shows the interpolated waveform and the absolute error of the linear and piecewise parabolic interpolators for $x_2[m+\mu]$.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=1.0\textwidth]{../diagram/Q2/x2_interp.png}
+        \caption{Interpolated waveform and absolute error of $\hat{x}_2[m+\mu]$}
+        \label{fig:x2_interp}
+    \end{figure}
 
     \newpage
     \item (Step 3) Please show the results calculated by your BF16 bit-true model for the following operands and operators. Express results both in decimal and binary representation. (S, E, F mean the sign bit, exponent field, and fraction field. All are given in binary.) (20\%)
