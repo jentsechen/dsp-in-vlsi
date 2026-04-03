@@ -50,8 +50,9 @@ xelab.pb
 *.hw/
 
 
-hw2_digital_filter/verification/__pycache__/
 hw2_digital_filter/verification/figure/
 
 *.aux
 *.gz
+*.html
+**/__pycache__/
