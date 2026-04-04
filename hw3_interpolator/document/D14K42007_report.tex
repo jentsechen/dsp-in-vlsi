@@ -8,6 +8,7 @@
 \usepackage{amsmath}
 \usepackage{booktabs}
 \usepackage{multirow}
+\input{q3_results}
 
 \title{DSP in VLSI \\ Homework 3 - Interpolator}
 \author{Jen-Tse Chen}
@@ -41,30 +42,29 @@
         \label{fig:x2_interp}
     \end{figure}
 
-    \newpage
     \item (Step 3) Please show the results calculated by your BF16 bit-true model for the following operands and operators. Express results both in decimal and binary representation. (S, E, F mean the sign bit, exponent field, and fraction field. All are given in binary.) (20\%)
 
     \begin{table}[htbp]
         \centering
-        \begin{tabular}{|l|l|l|l|}
+        \begin{tabular}{|l|l|l|l|l|l|}
             \hline
-            & \textbf{Operand 1} & \textbf{Operand 2} & \textbf{Operation} \\
+            & \textbf{Operand 1} & \textbf{Operand 2} & \textbf{Operation} & \textbf{Result (Binary)}  & \textbf{Result (Decimal)} \\
             \hline
-            \multirow{3}{*}{(a)} & S: 1             & S: 0             & \multirow{3}{*}{Addition} \\
-                                 & E: 1000\_0011    & E: 1000\_1011    & \\
-                                 & F: 0000\_000     & F: 0000\_011     & \\
+            \multirow{3}{*}{(a)} & S: 1             & S: 0             & \multirow{3}{*}{Addition}       & S: \qaS & \multirow{3}{*}{\qaDecim} \\
+                                 & E: 1000\_0011    & E: 1000\_1011    &                                 & E: \qaE & \\
+                                 & F: 0000\_000     & F: 0000\_011     &                                 & F: \qaF & \\
             \hline
-            \multirow{3}{*}{(b)} & S: 1             & S: 0             & \multirow{3}{*}{Addition} \\
-                                 & E: 0000\_0001    & E: 0000\_0001    & \\
-                                 & F: 0000\_011     & F: 1111\_010     & \\
+            \multirow{3}{*}{(b)} & S: 1             & S: 0             & \multirow{3}{*}{Addition}       & S: \qbS & \multirow{3}{*}{\qbDecim} \\
+                                 & E: 0000\_0001    & E: 0000\_0001    &                                 & E: \qbE & \\
+                                 & F: 0000\_011     & F: 1111\_010     &                                 & F: \qbF & \\
             \hline
-            \multirow{3}{*}{(c)} & S: 1             & S: 0             & \multirow{3}{*}{Multiplication} \\
-                                 & E: 0000\_0010    & E: 0111\_1100    & \\
-                                 & F: 1100\_000     & F: 0000\_110     & \\
+            \multirow{3}{*}{(c)} & S: 1             & S: 0             & \multirow{3}{*}{Multiplication} & S: \qcS & \multirow{3}{*}{\qcDecim} \\
+                                 & E: 0000\_0010    & E: 0111\_1100    &                                 & E: \qcE & \\
+                                 & F: 1100\_000     & F: 0000\_110     &                                 & F: \qcF & \\
             \hline
-            \multirow{3}{*}{(d)} & S: 0             & S: 0             & \multirow{3}{*}{Multiplication} \\
-                                 & E: 0110\_0011    & E: 1001\_0011    & \\
-                                 & F: 1011\_110     & F: 0101\_000     & \\
+            \multirow{3}{*}{(d)} & S: 0             & S: 0             & \multirow{3}{*}{Multiplication} & S: \qdS & \multirow{3}{*}{\qdDecim} \\
+                                 & E: 0110\_0011    & E: 1001\_0011    &                                 & E: \qdE & \\
+                                 & F: 1011\_110     & F: 0101\_000     &                                 & F: \qdF & \\
             \hline
         \end{tabular}
         \caption{BF16 bit-true model computation results}
@@ -74,7 +74,14 @@
     \newpage
     \item (Step 4) Show the interpolation differences of the second-order interpolator using BF16 and double-precision arithmetic operations. Draw the figures indicating the difference of interpolated results caused by data format for outputs $\hat{x}_1[m+\mu]$ in the region of $10 \leq m \leq 20$ with $\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$. (10\%)
 
-    Answer text here.
+    Figure \ref{fig:x1_poly2_bf16_diff} shows the interpolated waveform of $\hat{x}_1[m+\mu]$ using double-precision and BF16 arithmetic, and the absolute difference between the two results caused by the finite precision of BF16.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=1.0\textwidth]{../diagram/Q4/x1_poly2_bf16_diff.png}
+        \caption{Interpolated waveform and absolute error of $\hat{x}_1[m+\mu]$ between double-precision and BF16}
+        \label{fig:x1_poly2_bf16_diff}
+    \end{figure}
 
     \newpage
     \item (Step 5) Draw the complete block diagram of your first version implementation according to the Farrow structure. (5\%) Show your hardware sharing version (the precision of the datapath must be BF16 and cannot be changed). (10\%) Draw the block diagram after your improvement. (5\%) Indicate the critical path. (5\%)

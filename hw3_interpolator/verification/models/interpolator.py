@@ -19,22 +19,9 @@ class Signal:
 
 
 class InterpolatorModel:
-    """Polynomial-based interpolation model.
-
-    Supported methods
-    -----------------
-    linear               : first-order, 2-point  (eq. 1)
-    poly2                : second-order polynomial, 3-point  (eq. 2-3)
-    piecewise_parabolic  : piecewise parabolic, 4-point  (eq. 4-5), default α = 0.5
-
-    Parameters
-    ----------
-    signal : array_like
-        Discrete-time signal samples x[0], x[1], ..., x[N-1].
-    """
-
     def __init__(self, signal):
-        self.signal = np.asarray(signal, dtype=complex)
+        arr = np.asarray(signal)
+        self.signal = arr if arr.dtype == object else arr.astype(complex)
 
     def linear(self, m: int, mu: float) -> complex:
         return mu * self.signal[m + 1] + (1 - mu) * self.signal[m]

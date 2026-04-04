@@ -16,9 +16,7 @@
 - Press `Ctrl+Alt+V` to open the PDF preview side by side
 - `Ctrl+click` on the PDF jumps to the matching source line
 
-## Part Name
-`xc7a200tfbg676-1`
 
-## How to Obtain Cell Usage
-* Open synthesied design or report utilization
-* Run the command to Tcl Console: `report_utilization -cells [get_cells]`
+## Vivado Usage
+- Part name: `xc7a200tfbg676-1`
+- Cell usage: open synthesized design, then run in Tcl Console: `report_utilization -cells [get_cells]`
