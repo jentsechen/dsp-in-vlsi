@@ -50,9 +50,13 @@ sh mkdir -p Report
 ############################################
 # import design
 ############################################
-set DESIGN "ADDER"
+set DESIGN "SelectTopK"
 
-analyze -format verilog "../01_RTL/ADDER.v"
+analyze -format sverilog "../01_RTL/compare_swap.sv"
+analyze -format sverilog "../01_RTL/Sort8.sv"
+analyze -format sverilog "../01_RTL/merge_sort_fsm.sv"
+analyze -format sverilog "../01_RTL/max_index_finder.sv"
+analyze -format sverilog "../01_RTL/SelectTopK.sv"
 elaborate $DESIGN
 link
 current_design $DESIGN

@@ -52,7 +52,7 @@ sh mkdir -p Report
 ############################################
 set DESIGN "ADDER"
 
-analyze -format verilog "../01_RTL/ADDER.v"
+analyze -format sverilog "../01_RTL/ADDER.sv"
 elaborate $DESIGN
 link
 current_design $DESIGN

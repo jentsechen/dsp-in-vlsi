@@ -53,6 +53,6 @@ xelab.pb
 *.gz
 *.html
 **/__pycache__/
-*.zip
+tmp/*.zip
 
 adfp_account.md

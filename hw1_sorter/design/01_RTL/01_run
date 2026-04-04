@@ -1,1 +1,2 @@
-vcs -f file.f -full64 -R -sverilog -debug_access+all +define+RTL +notimingcheck
+vcs -f file_Sort8.f -full64 -R -sverilog -debug_access+all +define+RTL +notimingcheck
+vcs -f file_SelectTopK.f -full64 -R -sverilog -debug_access+all +define+RTL +notimingcheck

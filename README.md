@@ -1,3 +1,9 @@
+## ADFP Flow (RTL Sim / Synthesis / Gate-Level Sim)
+
+See [adfp_flow.md](adfp_flow.md) for the full workflow guide.
+
+---
+
 ## Recommended VSCode Extensions
 - **Ruff** (`charliermarsh.ruff`) — Python linter and formatter
 - **LaTeX Workshop** (`james-yu.latex-workshop`) — LaTeX editing, compilation, and preview
@@ -19,20 +25,21 @@
 
 ## Compressing a Directory
 
-**Linux/macOS** (`compress.sh`):
+**Linux/macOS** (`tools/compress.sh`):
 ```bash
-bash compress.sh <source_dir> <output_name>
-# e.g. bash compress.sh hw1_sorter/design hw1
-# produces hw1.tar.gz
+bash tools/compress.sh <source_dir> <output_name>
+# e.g. bash tools/compress.sh hw1_sorter/design tmp/hw1
+# produces tmp/hw1.tar.gz
 ```
 
-**Windows PowerShell** (`compress.ps1`):
+**Windows PowerShell** (`tools/compress.ps1`):
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\compress.ps1 -Source <source_dir> -OutputName <output_name>
-# e.g. powershell -ExecutionPolicy Bypass -File .\compress.ps1 -Source .\hw1_sorter\design -OutputName hw1
-# produces hw1.zip
+powershell -ExecutionPolicy Bypass -File .\tools\compress.ps1 -Source <source_dir> -OutputName <output_name>
+# e.g. powershell -ExecutionPolicy Bypass -File .\tools\compress.ps1 -Source .\hw1_sorter\design -OutputName tmp\hw1
+# produces tmp\hw1.zip
 ```
 
 ## Vivado Usage
 - Part name: `xc7a200tfbg676-1`
-- Cell usage: open synthesized design, then run in Tcl Console: `report_utilization -cells [get_cells]`
+- Cell usage
+    - open synthesized design, then run in Tcl Console: `report_utilization -cells [get_cells]`

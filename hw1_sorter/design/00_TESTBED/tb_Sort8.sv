@@ -4,7 +4,7 @@ module tb_Sort8 ();
   parameter int WIDTH = 9;
   parameter int CLK_PERIOD = 10;
 
-  logic                    clk, rst_n;
+  logic clk, rst_n;
   logic signed [WIDTH-1:0] in0, in1, in2, in3, in4, in5, in6, in7;
   logic signed [WIDTH-1:0] out0, out1, out2, out3, out4, out5, out6, out7;
 
@@ -33,12 +33,12 @@ module tb_Sort8 ();
   always #(CLK_PERIOD / 2) clk = ~clk;
 
   initial begin
-    $fsdbDumpfile("tb_Sort8.fsdb");
+    $fsdbDumpfile("fsdb/tb_Sort8.fsdb");
     $fsdbDumpvars(0, "+mda");
   end
 
-  int  file_ptr, scan_ret;
-  int  in0_t, in1_t, in2_t, in3_t, in4_t, in5_t, in6_t, in7_t;
+  int file_ptr, scan_ret;
+  int in0_t, in1_t, in2_t, in3_t, in4_t, in5_t, in6_t, in7_t;
   initial begin
     rst_n = 0;
     in0   = '0;
@@ -54,18 +54,28 @@ module tb_Sort8 ();
     rst_n = 1;
     #(CLK_PERIOD);
 
-    file_ptr = $fopen("input.txt", "r");
+    file_ptr = $fopen("vectors/tb_Sort8_input.txt", "r");
 
     if (file_ptr == 0) begin
       $display("Error: Could not open input file.");
       $finish;
     end
 
-    while (!$feof(file_ptr)) begin
-      scan_ret = $fscanf(file_ptr, "%d %d %d %d %d %d %d %d\n", in0_t, in1_t, in2_t, in3_t,
-                         in4_t, in5_t, in6_t, in7_t);
-      $display("[%0t] in: %0d %0d %0d %0d %0d %0d %0d %0d", $time, in0_t, in1_t, in2_t, in3_t,
-               in4_t, in5_t, in6_t, in7_t);
+    while (!$feof(
+        file_ptr
+    )) begin
+      scan_ret = $fscanf(
+          file_ptr,
+          "%d %d %d %d %d %d %d %d\n",
+          in0_t,
+          in1_t,
+          in2_t,
+          in3_t,
+          in4_t,
+          in5_t,
+          in6_t,
+          in7_t
+      );
       @(posedge clk);
       in0 <= in0_t;
       in1 <= in1_t;
