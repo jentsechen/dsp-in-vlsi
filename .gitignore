@@ -49,10 +49,10 @@ xelab.pb
 *.cache/
 *.hw/
 
-
-hw2_digital_filter/verification/figure/
-
 *.aux
 *.gz
 *.html
 **/__pycache__/
+*.zip
+
+adfp_account.md

@@ -1,3 +1,3 @@
-../00_TESTBED/TESTBED.v
-../00_TESTBED/PATTERN.v
-ADDER.v
+../00_TESTBED/tb_Sort8.v
+compare_swap.v
+Sort8.v

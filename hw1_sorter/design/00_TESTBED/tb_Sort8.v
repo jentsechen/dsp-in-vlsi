@@ -1,11 +1,12 @@
 `timescale 1ns / 1ps
 
 module tb_Sort8 ();
-  parameter WIDTH = 9;
-  parameter CLK_PERIOD = 10;
-  reg clk, rst_n;
-  reg signed [WIDTH-1:0] in0, in1, in2, in3, in4, in5, in6, in7;
-  wire signed [WIDTH-1:0] out0, out1, out2, out3, out4, out5, out6, out7;
+  parameter int WIDTH = 9;
+  parameter int CLK_PERIOD = 10;
+
+  logic                    clk, rst_n;
+  logic signed [WIDTH-1:0] in0, in1, in2, in3, in4, in5, in6, in7;
+  logic signed [WIDTH-1:0] out0, out1, out2, out3, out4, out5, out6, out7;
 
   Sort8 #(WIDTH) uut (
       .clk  (clk),
@@ -31,19 +32,23 @@ module tb_Sort8 ();
   initial clk = 0;
   always #(CLK_PERIOD / 2) clk = ~clk;
 
-  integer file_ptr;
-  integer in0_t, in1_t, in2_t, in3_t, in4_t, in5_t, in6_t, in7_t;
   initial begin
-    // Initialize
+    $fsdbDumpfile("tb_Sort8.fsdb");
+    $fsdbDumpvars(0, "+mda");
+  end
+
+  int  file_ptr, scan_ret;
+  int  in0_t, in1_t, in2_t, in3_t, in4_t, in5_t, in6_t, in7_t;
+  initial begin
     rst_n = 0;
-    in0   = 0;
-    in1   = 0;
-    in2   = 0;
-    in3   = 0;
-    in4   = 0;
-    in5   = 0;
-    in6   = 0;
-    in7   = 0;
+    in0   = '0;
+    in1   = '0;
+    in2   = '0;
+    in3   = '0;
+    in4   = '0;
+    in5   = '0;
+    in6   = '0;
+    in7   = '0;
 
     #(CLK_PERIOD * 2);
     rst_n = 1;
@@ -56,11 +61,11 @@ module tb_Sort8 ();
       $finish;
     end
 
-    while (!$feof(
-        file_ptr
-    )) begin
-      $fscanf(file_ptr, "%d %d %d %d %d %d %d %d\n", in0_t, in1_t, in2_t, in3_t, in4_t, in5_t,
-              in6_t, in7_t);
+    while (!$feof(file_ptr)) begin
+      scan_ret = $fscanf(file_ptr, "%d %d %d %d %d %d %d %d\n", in0_t, in1_t, in2_t, in3_t,
+                         in4_t, in5_t, in6_t, in7_t);
+      $display("[%0t] in: %0d %0d %0d %0d %0d %0d %0d %0d", $time, in0_t, in1_t, in2_t, in3_t,
+               in4_t, in5_t, in6_t, in7_t);
       @(posedge clk);
       in0 <= in0_t;
       in1 <= in1_t;
@@ -74,15 +79,16 @@ module tb_Sort8 ();
 
     $fclose(file_ptr);
 
-    @(posedge clk);
-    in0 = 0;
-    in1 = 0;
-    in2 = 0;
-    in3 = 0;
-    in4 = 0;
-    in5 = 0;
-    in6 = 0;
-    in7 = 0;
+    repeat (6) @(posedge clk);
+    in0 = '0;
+    in1 = '0;
+    in2 = '0;
+    in3 = '0;
+    in4 = '0;
+    in5 = '0;
+    in6 = '0;
+    in7 = '0;
+    $finish;
   end
 
 endmodule
