@@ -23,7 +23,9 @@ See [adfp_flow.md](adfp_flow.md) for the full workflow guide.
 - `Ctrl+click` on the PDF jumps to the matching source line
 
 
-## Compressing a Directory
+## Tools
+
+### Compress
 
 **Linux/macOS** (`tools/compress.sh`):
 ```bash
@@ -37,6 +39,12 @@ bash tools/compress.sh <source_dir> <output_name>
 powershell -ExecutionPolicy Bypass -File .\tools\compress.ps1 -Source <source_dir> -OutputName <output_name>
 # e.g. powershell -ExecutionPolicy Bypass -File .\tools\compress.ps1 -Source .\hw1_sorter\design -OutputName tmp\hw1
 # produces tmp\hw1.zip
+```
+
+### Run RTL
+
+```bash
+cb && bash run_rtl.sh <file_name>.zip
 ```
 
 ## Vivado Usage
