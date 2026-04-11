@@ -1,1 +1,2 @@
-vcs -f file.f -full64 -R +v2k -debug_access+all +define+RTL +notimingcheck
+vcs -f file_bf16_adder.f -full64 -R -sverilog -debug_access+all +define+RTL +notimingcheck
+vcs -f file_bf16_mul.f -full64 -R -sverilog -debug_access+all +define+RTL +notimingcheck
