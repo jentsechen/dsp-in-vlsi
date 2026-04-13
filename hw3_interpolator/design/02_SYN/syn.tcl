@@ -50,9 +50,11 @@ sh mkdir -p Report
 ############################################
 # import design
 ############################################
-set DESIGN "ADDER"
+set DESIGN "poly2_interpolator"
 
-analyze -format verilog "../01_RTL/ADDER.v"
+analyze -format sverilog "../01_RTL/bf16_add.sv"
+analyze -format sverilog "../01_RTL/bf16_mul.sv"
+analyze -format sverilog "../01_RTL/poly2_interpolator.sv"
 elaborate $DESIGN
 link
 current_design $DESIGN

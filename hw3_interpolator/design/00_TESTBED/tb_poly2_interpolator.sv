@@ -79,6 +79,11 @@ module tb_poly2_interpolator;
     int pass_cnt, fail_cnt;
 
     initial begin
+        $fsdbDumpfile("fsdb/tb_poly2_interpolator.fsdb");
+        $fsdbDumpvars(0, "+mda");
+    end
+
+    initial begin
         pass_cnt = 0;
         fail_cnt = 0;
 

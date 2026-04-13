@@ -41,11 +41,19 @@ powershell -ExecutionPolicy Bypass -File .\tools\compress.ps1 -Source <source_di
 # produces tmp\hw1.zip
 ```
 
-### Run RTL
+### Run Scripts on ADFP Server
 
 ```bash
-cb && bash run_rtl.sh <file_name>.zip
+cb && bash run.sh rtl_sim <folder>
+cb && bash run.sh syn     <folder>
+cb && bash run.sh gl_sim  <folder>
+# e.g. cb && bash run.sh rtl_sim hw3
+# e.g. cb && bash run.sh syn     hw3
+# e.g. cb && bash run.sh gl_sim  hw3
 ```
+
+Requires `<folder>.zip` and the unzipped `<folder>/` to be in the same directory.
+If the zip is newer than the folder, the folder is removed and re-unzipped automatically.
 
 ## Vivado Usage
 - Part name: `xc7a200tfbg676-1`

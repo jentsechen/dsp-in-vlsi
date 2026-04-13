@@ -5,7 +5,6 @@ import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from models.bf16 import _encode, _decode, bf16_add, bf16_mul
 from models.interpolator import Signal
-from plotting.plotter import Plotter
 
 
 def _half(bits: int) -> int:
@@ -93,48 +92,6 @@ def _cases() -> list[tuple[int, int, int, int, int, int, int]]:
     return cases
 
 
-def plot(out_dir: str) -> None:
-    PHI = 1.0
-    M_RANGE = range(10, 20)
-    MU_VALUES = [k / 8 for k in range(8)]
-
-    m_all = np.arange(0, 25)
-    x1_samples = Signal.x1(m_all, phi=PHI)
-
-    x_axis = np.array([m + mu for m in M_RANGE for mu in MU_VALUES])
-
-    inputs = np.array([x1_samples[m] for m in M_RANGE for _ in MU_VALUES])
-
-    cases = _cases()
-    golden = np.array([
-        _decode(yr) + 1j * _decode(yi)
-        for c in cases
-        for yr, yi in [_golden(*c)]
-    ])
-
-    os.makedirs(out_dir, exist_ok=True)
-    plotter = Plotter()
-
-    plotter.plot_two_complex_signals(
-        inputs, "input x[m]",
-        golden, "BF16 output y[m+μ]",
-        path=os.path.join(out_dir, "interp_in_out.html"),
-        png_path=os.path.join(out_dir, "interp_in_out.png"),
-        x=x_axis,
-        xaxis_title="m + μ",
-    )
-
-    true_vals = np.array([Signal.x1(m + mu, phi=PHI) for m in M_RANGE for mu in MU_VALUES])
-    plotter.plot_interpolation_result(
-        true_vals,
-        [(golden, "BF16 poly2 interp.")],
-        path=os.path.join(out_dir, "interp_error.html"),
-        png_path=os.path.join(out_dir, "interp_error.png"),
-        x=x_axis,
-    )
-
-    print(f"[gen_interp] plots → {out_dir}")
-
 
 def run(out_dir: str) -> None:
     PHI = 1.0
@@ -171,10 +128,3 @@ def run(out_dir: str) -> None:
     print(f"[gen_interp] {len(input_indices)} input samples, {len(cases)} golden outputs → {out_dir}")
 
 
-if __name__ == "__main__":
-    _root = os.path.join(
-        os.path.dirname(__file__), "..", "..", "design", "01_RTL", "vectors"
-    )
-    run(os.path.normpath(_root))
-    _diagram = os.path.join(os.path.dirname(__file__), "..", "..", "diagram", "Q6")
-    plot(os.path.normpath(_diagram))

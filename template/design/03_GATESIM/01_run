@@ -1,1 +1,1 @@
-vcs -f file.f -full64 -R -debug_access+all +define+GATE +maxdelays -negdelay +neg_tchk
+vcs -f file.f -full64 -sverilog -R -debug_access+all +define+GATE +maxdelays -negdelay +neg_tchk

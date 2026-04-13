@@ -97,8 +97,3 @@ def run(out_dir: str) -> None:
             fg.write(f'{gold:04x}\n')
 
     print(f'[gen_add] {len(cases)} cases → {out_dir}')
-
-
-if __name__ == '__main__':
-    _root = os.path.join(os.path.dirname(__file__), '..', '..', 'design', '01_RTL', 'vectors')
-    run(os.path.normpath(_root))
