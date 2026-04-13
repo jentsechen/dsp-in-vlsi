@@ -21,7 +21,7 @@
 
     \item (Step 1) Show the real-part and imaginary-part output waveform $\hat{x}_1[m+\mu]$ after interpolation using linear interpolator and second-order polynomial interpolator to interpolate the sampled waveform in the region of $10 \leq m \leq 20$ with $\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$. In addition, draw the absolute error, defined by $|x_1[m+\mu] - \hat{x}_1[m+\mu]|$ in the region of $10 \leq m \leq 20$ with $\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$. (30\%)
 
-    Figure \ref{fig:x1_interp} shows the interpolated waveform and the absolute error of the linear and second-order polynomial interpolators for $x_1[m+\mu]$.
+    Figure~\ref{fig:x1_interp} shows the interpolated waveform and the absolute error of the linear and second-order polynomial interpolators for $x_1[m+\mu]$.
 
     \begin{figure}[htbp]
         \centering
@@ -33,7 +33,7 @@
     \newpage
     \item (Step 2) Show the real-part and imaginary-part output waveform of $\hat{x}_2[m+\mu]$ after interpolation using linear interpolator and piecewise parabolic interpolator to interpolate the sampled waveform in the region of $5 \leq m \leq 10$ with $\mu = 0, \frac{1}{9}, \frac{2}{9}, \ldots\frac{8}{9}$. In addition, draw the absolute error, defined by $|x_2[m+\mu] - \hat{x}_2[m+\mu]|$ in the region of $4 \leq m \leq 8$ with $\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$. (30\%)
 
-    Figure \ref{fig:x2_interp} shows the interpolated waveform and the absolute error of the linear and piecewise parabolic interpolators for $x_2[m+\mu]$.
+    Figure~\ref{fig:x2_interp} shows the interpolated waveform and the absolute error of the linear and piecewise parabolic interpolators for $x_2[m+\mu]$.
 
     \begin{figure}[htbp]
         \centering
@@ -74,7 +74,7 @@
     \newpage
     \item (Step 4) Show the interpolation differences of the second-order interpolator using BF16 and double-precision arithmetic operations. Draw the figures indicating the difference of interpolated results caused by data format for outputs $\hat{x}_1[m+\mu]$ in the region of $10 \leq m \leq 20$ with $\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$. (10\%)
 
-    Figure \ref{fig:x1_poly2_bf16_diff} shows the interpolated waveform of $\hat{x}_1[m+\mu]$ using double-precision and BF16 arithmetic, and the absolute difference between the two results caused by the finite precision of BF16.
+    Figure~\ref{fig:x1_poly2_bf16_diff} shows the interpolated waveform of $\hat{x}_1[m+\mu]$ using double-precision and BF16 arithmetic, and the absolute difference between the two results caused by the finite precision of BF16.
 
     \begin{figure}[htbp]
         \centering
@@ -91,22 +91,78 @@
     \newpage
     \item (Step 6) Write HDL to implement your second-order interpolator using BF16 arithmetic unit of Farrow structure after reduction. The input to be interpolated will change every 8 clock cycles and $\mu$ will change every clock cycle. Show the timing diagram of behavior simulation for the first 8 ($\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$) and the last 8 ($\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$) interpolated outputs of $\hat{x}_1[m+\mu]$ in the region of $10 \leq m \leq 20$. Show the real-part and imaginary-part error compared to double-precision results. (30\%)
 
-    Answer text here.
+    Figures~\ref{fig:behav_first_8_output} and~\ref{fig:behav_last_8_output} show the timing diagrams for the first and last 8 interpolated outputs of the behavior simulation. Figure~\ref{fig:x1_poly2_bf16_error} shows the real-part and imaginary-part errors between the BF16 and double-precision results.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.75\textwidth]{../diagram/Q6/first_8_output.png}
+        \caption{The first 8 output of interpolator}
+        \label{fig:behav_first_8_output}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.75\textwidth]{../diagram/Q6/last_8_output.png}
+        \caption{The last 8 output of interpolator}
+        \label{fig:behav_last_8_output}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=1.0\textwidth]{../diagram/Q6/x1_poly2_bf16_error.png}
+        \caption{Real-part and imaginary-part error of $\hat{x}_1[m+\mu]$ between double-precision and BF16 in behavior simulation}
+        \label{fig:x1_poly2_bf16_error}
+    \end{figure}
 
     \newpage
     \item (Step 6) Show your timing report to verify the critical path of your block diagram in Q5. (10\%) List your timing constraint for post-synthesis simulation. (5\%)
 
-    Answer text here.
+    The design is synthesized with a clock period of 20\,ns (50\,MHz). Input and output delays are set to 50\% of the clock period. Figure~\ref{fig:timing_report} shows the timing report after synthesis.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.75\textwidth]{../diagram/Q7/timing_report.png}
+        \caption{Timing report}
+        \label{fig:timing_report}
+    \end{figure}
 
     \newpage
     \item (Step 6) Show the timing diagram of post-synthesis simulation for the first 8 ($\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$) and the last 8 ($\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$) interpolated outputs of $\hat{x}_1[m+\mu]$ in the region of $10 \leq m \leq 20$ with $\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$. Show the real-part and imaginary-part error compared to double-precision results. (20\%)
 
-    Answer text here.
+    Figures~\ref{fig:post_syn_first_8_output} and~\ref{fig:post_syn_last_8_output} show the timing diagrams for the first and last 8 interpolated outputs of the post-synthesis simulation. Figure~\ref{fig:post_syn_bf16_error} shows the real-part and imaginary-part errors between the BF16 and double-precision results, which are identical to the behavior simulation results.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.75\textwidth]{../diagram/Q8/first_8_output.png}
+        \caption{The first 8 output of interpolator (post-synthesis)}
+        \label{fig:post_syn_first_8_output}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.75\textwidth]{../diagram/Q8/last_8_output.png}
+        \caption{The last 8 output of interpolator (post-synthesis)}
+        \label{fig:post_syn_last_8_output}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=1.0\textwidth]{../diagram/Q8/x1_poly2_bf16_error.png}
+        \caption{Real-part and imaginary-part error of $\hat{x}_1[m+\mu]$ between double-precision and BF16 in post-synthesis simulation}
+        \label{fig:post_syn_bf16_error}
+    \end{figure}
 
     \newpage
     \item (Step 6) Construct your BF16 bit-true model as the architecture after your improvement. Depict the real-part and imaginary-part errors of interpolated outputs of $\hat{x}_1[m+\mu]$ between the Verilog outputs and the bit-true model in the region of $10 \leq m \leq 20$ with $\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$. (20\%)
 
-    Answer text here.
+    The Verilog outputs match the BF16 bit-true model exactly, so the errors are all zero as shown in Figure~\ref{fig:q9_bf16_error}.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=1.0\textwidth]{../diagram/Q9/x1_poly2_bf16_error.png}
+        \caption{Real-part and imaginary-part error between Verilog outputs and BF16 bit-true model}
+        \label{fig:q9_bf16_error}
+    \end{figure}
 
 \end{enumerate}
 

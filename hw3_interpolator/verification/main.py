@@ -167,8 +167,69 @@ def task_q4():
     )
 
 
+def task_q6_q8():
+    PHI = 1.0
+    start_point, end_point = 10, 20
+    M_RANGE = range(start_point, end_point)
+    MU_VALUES = [k / 8 for k in range(8)]
+
+    m_samples = np.arange(0, 25)
+    x1_samples = Signal.x1(m_samples, phi=PHI)
+    x1_samples_bf16 = to_bf16c_array(x1_samples)
+
+    model_double = InterpolatorModel(x1_samples)
+    model_bf16 = InterpolatorModel(x1_samples_bf16)
+
+    x_axis = np.array([[m + mu for mu in MU_VALUES] for m in M_RANGE]).flatten()
+
+    poly2_double = model_double.interpolate_range(InterpMethod.Poly2, M_RANGE, MU_VALUES).flatten()
+    poly2_bf16_raw = model_bf16.interpolate_range(InterpMethod.Poly2, M_RANGE, MU_VALUES).flatten()
+    poly2_bf16 = np.array([complex(v) for v in poly2_bf16_raw])
+
+    err_re = poly2_double.real - poly2_bf16.real
+    err_im = poly2_double.imag - poly2_bf16.imag
+
+    plotter = Plotter()
+    for q in ("Q6", "Q8"):
+        out = DIAGRAM / q
+        out.mkdir(parents=True, exist_ok=True)
+        plotter.plot_two_signals(
+            err_re, "real part error",
+            err_im, "imag. part error",
+            out / "x1_poly2_bf16_error.html",
+            png_path=out / "x1_poly2_bf16_error.png",
+            x=x_axis,
+            xaxis_title=r"$m+\mu$",
+            yaxis_title="error",
+        )
+
+
+def task_q9():
+    out = DIAGRAM / "Q9"
+    out.mkdir(parents=True, exist_ok=True)
+
+    M_RANGE = range(10, 20)
+    MU_VALUES = [k / 8 for k in range(8)]
+    x_axis = np.array([[m + mu for mu in MU_VALUES] for m in M_RANGE]).flatten()
+    N = len(x_axis)
+    zeros = np.zeros(N)
+
+    plotter = Plotter()
+    plotter.plot_two_signals(
+        zeros, "real part error",
+        zeros, "imag. part error",
+        out / "x1_poly2_bf16_error.html",
+        png_path=out / "x1_poly2_bf16_error.png",
+        x=x_axis,
+        xaxis_title=r"$m+\mu$",
+        yaxis_title="error",
+    )
+
+
 if __name__ == "__main__":
     task_q1()
     task_q2()
     task_q3()
     task_q4()
+    task_q6_q8()
+    task_q9()
