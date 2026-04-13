@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module tb_bf16_adder;
+module tb_bf16_add;
 
     localparam int N = 134;  // must match number of lines in vectors/
 
@@ -9,7 +9,7 @@ module tb_bf16_adder;
     logic [15:0] mem_b [0:N-1];
     logic [15:0] mem_g [0:N-1];
 
-    bf16_adder dut (
+    bf16_add dut (
         .a   (a),
         .b   (b),
         .out (out)
@@ -18,15 +18,15 @@ module tb_bf16_adder;
     int pass_cnt, fail_cnt;
 
     initial begin
-        $readmemh("vectors/adder_in_a.txt",   mem_a);
-        $readmemh("vectors/adder_in_b.txt",   mem_b);
-        $readmemh("vectors/adder_golden.txt", mem_g);
+        $readmemh("vectors/add_in_a.txt",   mem_a);
+        $readmemh("vectors/add_in_b.txt",   mem_b);
+        $readmemh("vectors/add_golden.txt", mem_g);
 
         pass_cnt = 0;
         fail_cnt = 0;
 
         $display("================================================================");
-        $display("  BF16 ADDER TESTBENCH  (%0d cases)", N);
+        $display("  BF16 ADD TESTBENCH  (%0d cases)", N);
         $display("================================================================");
         $display("  #    a       b       out     exp     result");
         $display("----------------------------------------------------------------");

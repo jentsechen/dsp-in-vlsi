@@ -85,9 +85,9 @@ def run(out_dir: str) -> None:
     os.makedirs(out_dir, exist_ok=True)
     cases = _cases()
 
-    fa_path = os.path.join(out_dir, 'adder_in_a.txt')
-    fb_path = os.path.join(out_dir, 'adder_in_b.txt')
-    fg_path = os.path.join(out_dir, 'adder_golden.txt')
+    fa_path = os.path.join(out_dir, 'add_in_a.txt')
+    fb_path = os.path.join(out_dir, 'add_in_b.txt')
+    fg_path = os.path.join(out_dir, 'add_golden.txt')
 
     with open(fa_path, 'w') as fa, open(fb_path, 'w') as fb, open(fg_path, 'w') as fg:
         for a_bits, b_bits in cases:
@@ -96,7 +96,7 @@ def run(out_dir: str) -> None:
             fb.write(f'{b_bits:04x}\n')
             fg.write(f'{gold:04x}\n')
 
-    print(f'[gen_adder] {len(cases)} cases → {out_dir}')
+    print(f'[gen_add] {len(cases)} cases → {out_dir}')
 
 
 if __name__ == '__main__':

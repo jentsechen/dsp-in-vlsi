@@ -1,4 +1,4 @@
-module bf16_adder (
+module bf16_add (
     input  logic [15:0] a,
     input  logic [15:0] b,
     output logic [15:0] out
