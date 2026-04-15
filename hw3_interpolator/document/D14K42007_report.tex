@@ -86,7 +86,23 @@
     \newpage
     \item (Step 5) Draw the complete block diagram of your first version implementation according to the Farrow structure. (5\%) Show your hardware sharing version (the precision of the datapath must be BF16 and cannot be changed). (10\%) Draw the block diagram after your improvement. (5\%) Indicate the critical path. (5\%)
 
-    Answer text here.
+    Figure~\ref{fig:first_ver} shows the first version block diagram following the Farrow structure. The three input samples $x(m)$, $x(m+1)$, and $x(m+2)$ are stored in two delay registers. The Farrow coefficient sub-filters compute $c_0$, $c_1$, and $c_2$ using constant multipliers (0.5 and 1.5) and adders/subtractors. The output is then evaluated as $\hat{x}[m+\mu] = c_0 + \mu(c_1 + \mu c_2)$ using two BF16 multipliers for $\mu$.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.75\textwidth]{../diagram/Q5/first_ver.png}
+        \caption{First version block diagram (Farrow structure)}
+        \label{fig:first_ver}
+    \end{figure}
+
+    Figure~\ref{fig:hw_sharing_ver} shows the hardware sharing version. By reordering computations, the two separate coefficient paths that share common sub-expressions are merged, reducing the total number of adders. The red path highlights the critical path, which runs from the input registers through the shared adder tree and the two sequential $\mu$ multiplications to the output.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.75\textwidth]{../diagram/Q5/hw_sharing_ver.png}
+        \caption{Hardware sharing version block diagram with critical path (red)}
+        \label{fig:hw_sharing_ver}
+    \end{figure}
 
     \newpage
     \item (Step 6) Write HDL to implement your second-order interpolator using BF16 arithmetic unit of Farrow structure after reduction. The input to be interpolated will change every 8 clock cycles and $\mu$ will change every clock cycle. Show the timing diagram of behavior simulation for the first 8 ($\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$) and the last 8 ($\mu = 0, \frac{1}{8}, \frac{2}{8}, \ldots\frac{7}{8}$) interpolated outputs of $\hat{x}_1[m+\mu]$ in the region of $10 \leq m \leq 20$. Show the real-part and imaginary-part error compared to double-precision results. (30\%)
@@ -117,13 +133,21 @@
     \newpage
     \item (Step 6) Show your timing report to verify the critical path of your block diagram in Q5. (10\%) List your timing constraint for post-synthesis simulation. (5\%)
 
-    The design is synthesized with a clock period of 20\,ns (50\,MHz). Input and output delays are set to 50\% of the clock period. Figure~\ref{fig:timing_report} shows the timing report after synthesis.
+    The design is synthesized with a clock period of 10\,ns (100\,MHz). Input and output delays are set to 50\% of the clock period. Figures~\ref{fig:timing_report_start} and~\ref{fig:timing_report_end} show the timing report after synthesis.
 
     \begin{figure}[htbp]
         \centering
-        \includegraphics[width=0.75\textwidth]{../diagram/Q7/timing_report.png}
-        \caption{Timing report}
-        \label{fig:timing_report}
+        \includegraphics[width=0.75\textwidth]{../diagram/Q7/timing_report_start.png}
+        \caption{Timing report (start)}
+        \label{fig:timing_report_start}
+    \end{figure}
+
+    \newpage
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.7\textwidth]{../diagram/Q7/timing_report_end.png}
+        \caption{Timing report (end)}
+        \label{fig:timing_report_end}
     \end{figure}
 
     \newpage
