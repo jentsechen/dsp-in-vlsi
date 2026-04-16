@@ -1,0 +1,179 @@
+\documentclass{article}
+\usepackage{graphicx}
+\graphicspath{ {../diagram/} }
+\usepackage[margin=2cm]{geometry}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{booktabs}
+
+\title{DSP in VLSI \\ Homework 4 - CORDIC}
+\author{Jen-Tse Chen}
+\date{April 2026}
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+    \item (Step 1) Please draw the figure showing $S(N)$ versus $N$ for $N = 1\ldots 30$. (5\%)
+
+    Figure~\ref{fig:scaling_factor} shows the CORDIC scaling factor $S(N) = \prod_{i=0}^{N-1} \frac{1}{\sqrt{1+2^{-2i}}}$ versus the number of micro-rotations $N$. The factor decreases rapidly and converges to approximately $0.6073$ by $N \approx 5$, remaining constant thereafter.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=1.0\textwidth]{../diagram/Q1/scaling_factor.png}
+        \caption{CORDIC scaling factor $S(N)$ versus $N$}
+        \label{fig:scaling_factor}
+    \end{figure}
+
+    \newpage
+    \item (Step 2) Draw the figure of average absolute error versus fractional wordlength (10\%) to show how you determine the setting of word-length of the fractional part. Write down the integer word-length of $X(i)$ and $Y(i)$ that you use all the stages. Please explain it. (5\%)
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=1.0\textwidth]{../diagram/Q2/avg_error_vs_wordlength.png}
+        \caption{Average absolute phase error versus fractional wordlength $w$}
+        \label{fig:avg_error_vs_wordlength}
+    \end{figure}
+
+    \newpage
+    \item (Step 3) Please draw a figure to denote the average phase errors of 10 quantized input pairs $(X, Y)$ versus different numbers of micro-rotations $S$ (10\%) and draw a figure to show the resulted phase errors of 10 quantized input pairs versus the word-length of quantized elementary angles (10\%). Explain your selection to satisfy the averaged error criterion of $2^{-9}$ radian. Also list a table of the elementary angles (both in floating-point representation and binary fixed-point representation). (5\%)
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=1.0\textwidth]{../diagram/Q3/error_vs_S.png}
+        \caption{Average phase error versus number of micro-rotations $S$}
+        \label{fig:error_vs_S}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=1.0\textwidth]{../diagram/Q3/error_vs_angle_wordlength.png}
+        \caption{Average phase error versus word-length of quantized elementary angles}
+        \label{fig:error_vs_angle_wordlength}
+    \end{figure}
+
+    \newpage
+    \item (Step 4) Please show how you decide the number of micro-rotations for the magnitude function with error tolerance of 0.1\%. (10\%)
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=1.0\textwidth]{../diagram/Q4/error_vs_N_magnitude.png}
+        \caption{Magnitude function error versus number of micro-rotations $N$}
+        \label{fig:error_vs_N_magnitude}
+    \end{figure}
+
+    \newpage
+    \item (Step 5) Write a program to show the setting of fractional wordlength of CSD versus error. Draw the figure. (10\%) Depict your design for the shift-and-add block according to your CSD representation. How many adders do you use? (10\%)
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=1.0\textwidth]{../diagram/Q5/csd_error_vs_wordlength.png}
+        \caption{CSD scaling factor error versus fractional wordlength}
+        \label{fig:csd_error_vs_wordlength}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=0.75\textwidth]{../diagram/Q5/shift_add_block.png}
+        \caption{Shift-and-add block diagram for the CSD scaling factor}
+        \label{fig:shift_add_block}
+    \end{figure}
+
+    \newpage
+    \item (Step 6) Depict your design of the initial stage. Mark the word-length in the block diagram. (10\%)
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=0.75\textwidth]{../diagram/Q6/initial_stage.png}
+        \caption{Block diagram of the initial stage with word-lengths marked}
+        \label{fig:initial_stage}
+    \end{figure}
+
+    \newpage
+    \item (Step 6) Implement your design with only DFFs inserted at the inputs and outputs. Show the timing diagram of behavior simulation for four inputs. (15\%) Compare the results with the arctangent function and draw the error versus index $m$ to show that your implementation meets the precision requirements of error less than $2^{-9}$. (10\%)
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=0.75\textwidth]{../diagram/Q7/timing_behav.png}
+        \caption{Timing diagram of behavior simulation for four inputs}
+        \label{fig:timing_behav}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=1.0\textwidth]{../diagram/Q7/error_vs_m_behav.png}
+        \caption{Phase error versus index $m$ for iterative architecture (behavior simulation)}
+        \label{fig:error_vs_m_behav}
+    \end{figure}
+
+    \newpage
+    \item (Step 7) Draw the block diagram of your $\frac{S}{2}$-unfolding architecture. (10\%) Show the timing diagram of behavior and post-synthesis simulation with correct setting of clock period and 10 inputs. (30\%) Verified the error between the post-synthesis results and the floating-point arctangent results. Draw the error versus index $m$. (10\%)
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=0.75\textwidth]{../diagram/Q8/unfolding_arch.png}
+        \caption{Block diagram of the $\frac{S}{2}$-unfolding architecture}
+        \label{fig:unfolding_arch}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=0.75\textwidth]{../diagram/Q8/timing_behav_10inputs.png}
+        \caption{Timing diagram of behavior simulation with 10 inputs}
+        \label{fig:timing_behav_10inputs}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=0.75\textwidth]{../diagram/Q8/timing_postsyn_10inputs.png}
+        \caption{Timing diagram of post-synthesis simulation with 10 inputs}
+        \label{fig:timing_postsyn_10inputs}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=1.0\textwidth]{../diagram/Q8/error_vs_m_postsyn.png}
+        \caption{Phase error versus index $m$ for $\frac{S}{2}$-unfolding architecture (post-synthesis)}
+        \label{fig:error_vs_m_postsyn}
+    \end{figure}
+
+    \newpage
+    \item (Step 8) Report and compare the area before and after unfolding. (10\%)
+
+    \newpage
+    \item (Step 9) Draw the shift-and-add module for the scaling factor (5\%). Connect the shift-and-add module to your micro-rotation module, and calculate the magnitude function. Show the timing diagram of behavior simulation and post-synthesis simulation with proper setting of clock period. (15\%) Verified the error between the post-synthesis results and the floating-point arctangent results. Draw the error versus index $m$. (10\%)
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=0.75\textwidth]{../diagram/Q10/magnitude_arch.png}
+        \caption{Complete magnitude function architecture with shift-and-add scaling}
+        \label{fig:magnitude_arch}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=0.75\textwidth]{../diagram/Q10/timing_behav_magnitude.png}
+        \caption{Timing diagram of behavior simulation for magnitude function}
+        \label{fig:timing_behav_magnitude}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=0.75\textwidth]{../diagram/Q10/timing_postsyn_magnitude.png}
+        \caption{Timing diagram of post-synthesis simulation for magnitude function}
+        \label{fig:timing_postsyn_magnitude}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \centering
+        % \includegraphics[width=1.0\textwidth]{../diagram/Q10/error_vs_m_magnitude.png}
+        \caption{Magnitude error versus index $m$ (post-synthesis)}
+        \label{fig:error_vs_m_magnitude}
+    \end{figure}
+
+\end{enumerate}
+
+\end{document}
