@@ -25,13 +25,25 @@ lab0/
 
 ### 00_TESTBED
 - Place your testbench here (e.g. `HW3_tb.v`)
-- Add the following to dump waveform:
+- At the top of the file, define the SDF path and add the `ifdef RTL/GATE` block to dump the waveform and annotate timing:
   ```verilog
+  `define SYN_SDF_FILE "../02_SYN/Netlist/your_design_syn.sdf"
+
+  // inside the testbench module:
   initial begin
-      $fsdbDumpfile("your_design.fsdb");
-      $fsdbDumpvars(0, "+mda");
+      `ifdef RTL
+          $fsdbDumpfile("your_design.fsdb");
+          $fsdbDumpvars(0, "+mda");
+      `endif
+      `ifdef GATE
+          $sdf_annotate(`SYN_SDF_FILE, dut);  // "dut" must match the instance name of your DUT
+          $fsdbDumpfile("your_design.fsdb");
+          $fsdbDumpvars(0, "+mda");
+      `endif
   end
   ```
+- **The instance name passed to `$sdf_annotate` and the actual DUT instance name in the testbench must be identical**
+- The SDF file is only annotated during gate-level simulation (`+define+GATE`); RTL simulation uses `+define+RTL`
 
 ### 01_RTL
 - Place your design file here (e.g. `HW3.v`)
