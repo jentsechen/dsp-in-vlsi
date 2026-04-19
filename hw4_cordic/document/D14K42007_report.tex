@@ -31,10 +31,22 @@
     \newpage
     \item (Step 2) Draw the figure of average absolute error versus fractional wordlength (10\%) to show how you determine the setting of word-length of the fractional part. Write down the integer word-length of $X(i)$ and $Y(i)$ that you use all the stages. Please explain it. (5\%)
 
+    Figure~\ref{fig:avg_error_vs_wordlength} plots the average absolute phase error against the fractional wordlength $w$ with $N = 30$ micro-rotations.
+    The error decreases monotonically and falls below the $2^{-9}$ criterion at $w = 9$, after which further increase yields negligible improvement.
+    Therefore, the fractional wordlength of the $X$/$Y$ datapath is set to $w = 9$ bits.
+
+    Each CORDIC micro-rotation is a pseudo-rotation that does not preserve the vector magnitude; the amplitude grows by a factor of $1/S(N)$.
+    For unit-circle inputs ($\sqrt{X_0^2 + Y_0^2} = 1$) the maximum value reached by either register throughout all $N$ stages is bounded by
+    \[
+        \max_i \sqrt{X(i)^2 + Y(i)^2} \;=\; \frac{1}{S(N)} \;\approx\; 1.647 \;<\; 2^1.
+    \]
+    Since the pseudo-magnitude never reaches $2$, one integer bit suffices for all stages.
+    Combined with the sign bit, the complete word format is (1 sign $+$ 1 integer $+$ 10 fractional) $= 12$ bits.
+
     \begin{figure}[htbp]
         \centering
-        % \includegraphics[width=1.0\textwidth]{../diagram/Q2/avg_error_vs_wordlength.png}
-        \caption{Average absolute phase error versus fractional wordlength $w$}
+        \includegraphics[width=1.0\textwidth]{../diagram/Q2/phase_error_vs_wordlength.png}
+        \caption{Average absolute phase error versus fractional wordlength $w$ of $X(i)$/$Y(i)$ ($N = 30$, floating-point $\theta$)}
         \label{fig:avg_error_vs_wordlength}
     \end{figure}
 
