@@ -1,3 +1,2 @@
-../00_TESTBED/TESTBED.v
-../00_TESTBED/PATTERN.v
-ADDER.v
+../00_TESTBED/tb_cordic.sv
+cordic.sv

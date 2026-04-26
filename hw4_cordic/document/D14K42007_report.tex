@@ -112,7 +112,7 @@
 
     \begin{figure}[htbp]
         \centering
-        \includegraphics[width=0.4\textwidth]{../diagram/Q5/scaling_factor_mult.png}
+        \includegraphics[width=0.35\textwidth]{../diagram/Q5/scaling_factor_mult.png}
         \caption{Shift-and-add block diagram for the CSD scaling factor $S(10)$}
         \label{fig:scaling_factor_mult}
     \end{figure}
@@ -120,9 +120,11 @@
     \newpage
     \item (Step 6) Depict your design of the initial stage. Mark the word-length in the block diagram. (10\%)
 
+    Figure~\ref{fig:initial_stage} shows the block diagram of the initial stage. The initial stage maps the complex input into the right half plane before the CORDIC iterations begin; the offset shifts back to the original quadrant after the CORDIC iterations.
+
     \begin{figure}[htbp]
         \centering
-        % \includegraphics[width=0.75\textwidth]{../diagram/Q6/initial_stage.png}
+        \includegraphics[width=0.6\textwidth]{../diagram/Q6/init_stage.png}
         \caption{Block diagram of the initial stage with word-lengths marked}
         \label{fig:initial_stage}
     \end{figure}

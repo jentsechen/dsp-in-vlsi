@@ -1,10 +1,52 @@
 from pathlib import Path
 import numpy as np
-from models.cordic import avg_phase_error_fixedxy, avg_phase_error_fixed, scaling_factors, scaling_factor, avg_magnitude_error_fixed, csd_of_scaling_factor, float_to_fixed
+from models.cordic import avg_phase_error_fixedxy, avg_phase_error_fixed, scaling_factors, scaling_factor, avg_magnitude_error_fixed, csd_of_scaling_factor, float_to_fixed, cordic_phase_fixed
 from plotting.plotter import Plotter
 
 DIAGRAM = Path(__file__).parent.parent / "diagram"
 DOCUMENT = Path(__file__).parent.parent / "document"
+VECTORS = Path(__file__).parent.parent / "design" / "01_RTL" / "vectors"
+
+
+def gen_test_pat(
+    N: int = 10,
+    frac_bits_xy: int = 12,
+    frac_bits_theta: int = 10,
+):
+    indices = [0, 3, 6, 9]
+    m = np.array(indices)
+    alpha = (4 * m + 2) / 20.0 * np.pi
+    X = np.cos(alpha)
+    Y = np.sin(alpha)
+
+    xy_bits = frac_bits_xy + 2
+    theta_bits = frac_bits_theta + 3
+    xy_mask = (1 << xy_bits) - 1
+    theta_mask = (1 << theta_bits) - 1
+
+    x_in  = [float_to_fixed(x, frac_bits_xy) & xy_mask for x in X]
+    y_in  = [float_to_fixed(y, frac_bits_xy) & xy_mask for y in Y]
+    theta = [
+        float_to_fixed(
+            cordic_phase_fixed(x, y, N, frac_bits_xy, frac_bits_theta),
+            frac_bits_theta,
+        ) & theta_mask
+        for x, y in zip(X, Y)
+    ]
+
+    VECTORS.mkdir(parents=True, exist_ok=True)
+    hex_xy    = (xy_bits    + 3) // 4
+    hex_theta = (theta_bits + 3) // 4
+    (VECTORS / "x_in.txt").write_text(
+        "\n".join(format(v, f"0{hex_xy}X") for v in x_in) + "\n"
+    )
+    (VECTORS / "y_in.txt").write_text(
+        "\n".join(format(v, f"0{hex_xy}X") for v in y_in) + "\n"
+    )
+    (VECTORS / "theta_golden.txt").write_text(
+        "\n".join(format(v, f"0{hex_theta}X") for v in theta) + "\n"
+    )
+    return x_in, y_in, theta
 
 
 def test_inputs():
@@ -221,3 +263,4 @@ if __name__ == "__main__":
     task_q3()
     task_q4()
     task_q5()
+    gen_test_pat()
