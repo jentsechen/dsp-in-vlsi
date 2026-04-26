@@ -1,6 +1,6 @@
 from pathlib import Path
 import numpy as np
-from models.cordic import avg_phase_error_fixedxy, avg_phase_error_fixed, scaling_factors, avg_magnitude_error_fixed
+from models.cordic import avg_phase_error_fixedxy, avg_phase_error_fixed, scaling_factors, scaling_factor, avg_magnitude_error_fixed, csd_of_scaling_factor, float_to_fixed
 from plotting.plotter import Plotter
 
 DIAGRAM = Path(__file__).parent.parent / "diagram"
@@ -158,8 +158,66 @@ def task_q4():
     )
 
 
+def task_q5_1():
+    out = DIAGRAM / "Q5"
+    out.mkdir(parents=True, exist_ok=True)
+
+    X, Y = test_inputs()
+    frac_bits_xy = 12
+
+    N = 10
+
+    frac_bits_range = np.arange(5, 16)
+    errors = np.array([
+        avg_magnitude_error_fixed(X, Y, N, frac_bits_xy, csd_of_scaling_factor(N, b), b)
+        for b in frac_bits_range
+    ])
+
+    plotter = Plotter()
+    plotter.plot_signal(
+        errors,
+        out / "error_vs_csd_frac_bits.html",
+        png_path=out / "error_vs_csd_frac_bits.png",
+        x=frac_bits_range,
+        xaxis_title="fractional bits of CSD scaling factor",
+        yaxis_title="avg. rel. magnitude error",
+        hlines=[{"y": 1e-3, "color": "red", "dash": "dash", "annotation_text": "0.1%"}],
+    )
+
+
+def task_q5_2():
+    X, Y = test_inputs()
+    frac_bits_xy = 12
+    N = 10
+
+    frac_bits = next(
+        b for b in range(5, 21)
+        if avg_magnitude_error_fixed(X, Y, N, frac_bits_xy, csd_of_scaling_factor(N, b), b) < 1e-3
+    )
+
+    s_float = scaling_factor(N)
+    s_int = float_to_fixed(s_float, frac_bits)
+    bin_str = format(s_int, f"0{frac_bits}b")
+    csd = csd_of_scaling_factor(N, frac_bits)
+    csd_terms = " ".join(
+        f"{'−' if d < 0 else '+'}2^{p}" for p, d in sorted(csd.items())
+    )
+
+    print(f"S({N}) = {s_float:.10f}")
+    print(f"Fractional bits: {frac_bits}")
+    print(f"Fixed-point integer: {s_int} = 0b{bin_str}")
+    print(f"Binary fixed-point: 0.{bin_str}")
+    print(f"CSD: {csd_terms}  (over 2^{frac_bits})")
+
+
+def task_q5():
+    task_q5_1()
+    task_q5_2()
+
+
 if __name__ == "__main__":
     task_q1()
     task_q2()
     task_q3()
     task_q4()
+    task_q5()
