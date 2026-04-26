@@ -1,10 +1,16 @@
 from pathlib import Path
 import numpy as np
-from models.cordic import avg_phase_error_fixedxy, avg_phase_error_fixed, scaling_factors
+from models.cordic import avg_phase_error_fixedxy, avg_phase_error_fixed, scaling_factors, avg_magnitude_error_fixed
 from plotting.plotter import Plotter
 
 DIAGRAM = Path(__file__).parent.parent / "diagram"
 DOCUMENT = Path(__file__).parent.parent / "document"
+
+
+def test_inputs():
+    m = np.arange(10)
+    alpha = (4 * m + 2) / 20.0 * np.pi
+    return np.cos(alpha), np.sin(alpha)
 
 
 def task_q1():
@@ -29,9 +35,7 @@ def task_q2():
     out = DIAGRAM / "Q2"
     out.mkdir(parents=True, exist_ok=True)
 
-    m = np.arange(10)
-    alpha = (4 * m + 2) / 20.0 * np.pi
-    X, Y = np.cos(alpha), np.sin(alpha)
+    X, Y = test_inputs()
 
     N = 30
     frac_bits_range = np.arange(5, 16)
@@ -53,12 +57,10 @@ def task_q2():
 
 
 def task_q3_1(out):
-    m = np.arange(10)
-    alpha = (4 * m + 2) / 20.0 * np.pi
-    X, Y = np.cos(alpha), np.sin(alpha)
+    X, Y = test_inputs()
 
-    N_values = np.arange(1, 31)
-    frac_bits_xy = 9
+    N_values = np.arange(1, 16)
+    frac_bits_xy = 12
     errors = np.array([
         avg_phase_error_fixedxy(X, Y, N, frac_bits_xy)
         for N in N_values
@@ -77,12 +79,10 @@ def task_q3_1(out):
 
 
 def task_q3_2(out):
-    m = np.arange(10)
-    alpha = (4 * m + 2) / 20.0 * np.pi
-    X, Y = np.cos(alpha), np.sin(alpha)
+    X, Y = test_inputs()
 
     N = 10
-    frac_bits_xy = 9
+    frac_bits_xy = 12
     frac_bits_theta_range = np.arange(5, 16)
     errors = np.array([
         avg_phase_error_fixed(X, Y, N, frac_bits_xy, b)
@@ -136,7 +136,30 @@ def task_q3():
     task_q3_3(DOCUMENT)
 
 
+def task_q4():
+    out = DIAGRAM / "Q4"
+    out.mkdir(parents=True, exist_ok=True)
+
+    X, Y = test_inputs()
+
+    frac_bits_xy = 12
+    N_values = np.arange(1, 16)
+    errors = np.array([avg_magnitude_error_fixed(X, Y, N, frac_bits_xy) for N in N_values])
+
+    plotter = Plotter()
+    plotter.plot_signal(
+        errors,
+        out / "error_vs_N_magnitude.html",
+        png_path=out / "error_vs_N_magnitude.png",
+        x=N_values,
+        xaxis_title="number of micro-rotations",
+        yaxis_title="avg. rel. magnitude error",
+        hlines=[{"y": 1e-3, "color": "red", "dash": "dash", "annotation_text": "0.1%"}],
+    )
+
+
 if __name__ == "__main__":
-    # task_q1()
-    # task_q2()
+    task_q1()
+    task_q2()
     task_q3()
+    task_q4()

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(awk '{for\\(i=1;i<gsub\\(/\\\\//,\"/\"\\);i++\\)printf \"  \"; print}')",
+      "Bash(python main.py)",
+      "Bash(python -c ' *)"
+    ]
+  }
+}

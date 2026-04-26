@@ -29,7 +29,6 @@ def fixed_to_float(x_int: int, frac_bits: int) -> float:
 
 
 def arith_right_shift(x: int, shift: int) -> int:
-    """Arithmetic right shift — Python >> already sign-extends negative integers."""
     return x >> shift
 
 
@@ -244,7 +243,6 @@ def cordic_magnitude_fixed(
         Y_int = Y_int_new
 
     if csd is not None:
-        # Shift-and-add: result has (frac_bits_xy + frac_bits_scale) fractional bits
         result_int = apply_csd(X_int, csd)
         return fixed_to_float(result_int, frac_bits_xy + frac_bits_scale)
     else:
@@ -316,7 +314,6 @@ def batch_magnitude_fixed(
     csd: Optional[dict] = None,
     frac_bits_scale: int = 0,
 ) -> np.ndarray:
-    """Apply cordic_magnitude_fixed element-wise."""
     return np.array(
         [
             cordic_magnitude_fixed(x, y, N, frac_bits_xy, csd, frac_bits_scale)
@@ -350,7 +347,6 @@ def avg_magnitude_error_fixed(
     csd: Optional[dict] = None,
     frac_bits_scale: int = 0,
 ) -> float:
-    """Average relative magnitude error over the 10 test inputs (inputs are unit-circle)."""
     estimated = batch_magnitude_fixed(
         X_arr, Y_arr, N, frac_bits_xy, csd, frac_bits_scale
     )

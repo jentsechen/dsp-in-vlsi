@@ -32,8 +32,9 @@
     \item (Step 2) Draw the figure of average absolute error versus fractional wordlength (10\%) to show how you determine the setting of word-length of the fractional part. Write down the integer word-length of $X(i)$ and $Y(i)$ that you use all the stages. Please explain it. (5\%)
 
     Figure~\ref{fig:avg_error_vs_wordlength} plots the average absolute phase error against the fractional wordlength $w$ with $N = 30$ micro-rotations.
-    The error decreases monotonically and falls below the $2^{-9}$ criterion at $w = 9$, after which further increase yields negligible improvement.
-    Therefore, the fractional wordlength of the $X$/$Y$ datapath is set to $w = 9$ bits.
+    The error decreases monotonically and falls below the $2^{-9}$ criterion at $w = 9$, after which further increase yields negligible improvement for the phase function.
+    However, the magnitude function analysis in Step~4 shows that 9 fractional bits cause accumulated truncation error to violate the 0.1\% magnitude criterion across most micro-rotation counts.
+    Therefore, the fractional wordlength of the $X$ and $Y$ datapath is set to $w = 12$ bits to satisfy both the phase and magnitude requirements.
 
     Each CORDIC micro-rotation is a pseudo-rotation that does not preserve the vector magnitude; the amplitude grows by a factor of $1/S(N)$.
     For unit-circle inputs ($\sqrt{X_0^2 + Y_0^2} = 1$) the maximum value reached by either register throughout all $N$ stages is bounded by
@@ -41,37 +42,37 @@
         \max_i \sqrt{X(i)^2 + Y(i)^2} \;=\; \frac{1}{S(N)} \;\approx\; 1.647 \;<\; 2^1.
     \]
     Since the pseudo-magnitude never reaches $2$, one integer bit suffices for all stages.
-    Combined with the sign bit, the complete word format is (1 sign $+$ 1 integer $+$ 9 fractional) $= 11$ bits.
+    Combined with the sign bit, the complete word format is 1 sign $+$ 1 integer $+$ 12 fractional $= 14$ bits.
 
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=1.0\textwidth]{../diagram/Q2/phase_error_vs_wordlength.png}
-        \caption{Average absolute phase error versus fractional wordlength $w$ of $X(i)$/$Y(i)$ ($N = 30$, floating-point $\theta$)}
+        \caption{Average absolute phase error versus fractional wordlength $w$ of $X(i)$ and $Y(i)$ ($N = 30$, floating-point $\theta$)}
         \label{fig:avg_error_vs_wordlength}
     \end{figure}
 
     % \newpage
     \item (Step 3) Please draw a figure to denote the average phase errors of 10 quantized input pairs $(X, Y)$ versus different numbers of micro-rotations $S$ (10\%) and draw a figure to show the resulted phase errors of 10 quantized input pairs versus the word-length of quantized elementary angles (10\%). Explain your selection to satisfy the averaged error criterion of $2^{-9}$ radian. Also list a table of the elementary angles (both in floating-point representation and binary fixed-point representation). (5\%)
 
-    Figure~\ref{fig:error_vs_S} shows the average absolute phase error versus the number of micro-rotations $S$, with the $X$/$Y$ fractional wordlength fixed at 9 bits.
+    Figure~\ref{fig:error_vs_S} shows the average absolute phase error versus the number of micro-rotations $S$, with the $X$ and $Y$ fractional wordlength fixed at 12 bits.
     The error decreases as $S$ increases and first falls below the $2^{-9}$ criterion at $S = 10$.
     Therefore, the number of micro-rotations is set to $S = 10$.
 
-    Figure~\ref{fig:error_vs_angle_wordlength} shows the average absolute phase error versus the fractional wordlength of the quantized elementary angles, with $S = 10$ micro-rotations and $X$/$Y$ fractional wordlength fixed at 9 bits.
-    The error decreases with increasing wordlength, meets the $2^{-9}$ criterion at 10 bits, and saturates beyond that point because the dominant error source shifts to the $X$/$Y$ quantization.
+    Figure~\ref{fig:error_vs_angle_wordlength} shows the average absolute phase error versus the fractional wordlength of the quantized elementary angles, with $S = 10$ micro-rotations and $X$ and $Y$ fractional wordlength fixed at 12 bits.
+    The error decreases with increasing wordlength, meets the $2^{-9}$ criterion at 10 bits, and saturates beyond that point because the dominant error source shifts to the $X$ and $Y$ quantization.
     Therefore, the fractional wordlength of the elementary angle LUT is set to 10 bits.
 
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=1.0\textwidth]{../diagram/Q3/phase_error_vs_micro_rotation.png}
-        \caption{Average absolute phase error versus number of micro-rotations $S$ (fractional wordlength of $X$/$Y$ = 9 bits, floating-point elementary angles)}
+        \caption{Average absolute phase error versus number of micro-rotations $S$ (fractional wordlength of $X$ and $Y$ = 12 bits, floating-point elementary angles)}
         \label{fig:error_vs_S}
     \end{figure}
 
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=1.0\textwidth]{../diagram/Q3/phase_error_vs_theta_wordlength.png}
-        \caption{Average absolute phase error versus fractional wordlength of quantized elementary angles ($S = 10$, fractional wordlength of $X$/$Y$ = 9 bits)}
+        \caption{Average absolute phase error versus fractional wordlength of quantized elementary angles ($S = 10$, fractional wordlength of $X$ and $Y$ = 12 bits)}
         \label{fig:error_vs_angle_wordlength}
     \end{figure}
 
@@ -82,10 +83,14 @@
     \newpage
     \item (Step 4) Please show how you decide the number of micro-rotations for the magnitude function with error tolerance of 0.1\%. (10\%)
 
+    Figure~\ref{fig:error_vs_N_magnitude} shows the average relative magnitude error versus the number of micro-rotations $S$, with the $X$ and $Y$ fractional wordlength set to 12 bits (as determined in Step~2).
+    The 0.1\% criterion is satisfied for $S \geq 5$.
+    Combining with the conclusion from Step~3, the number of micro-rotations is kept at $S = 10$.
+
     \begin{figure}[htbp]
         \centering
-        % \includegraphics[width=1.0\textwidth]{../diagram/Q4/error_vs_N_magnitude.png}
-        \caption{Magnitude function error versus number of micro-rotations $N$}
+        \includegraphics[width=1.0\textwidth]{../diagram/Q4/error_vs_N_magnitude.png}
+        \caption{Average relative magnitude error versus number of micro-rotations $S$ (fractional wordlength of $X$ and $Y$ = 12 bits)}
         \label{fig:error_vs_N_magnitude}
     \end{figure}
 

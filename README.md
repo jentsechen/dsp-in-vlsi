@@ -8,6 +8,7 @@ See [adfp_flow.md](adfp_flow.md) for the full workflow guide.
 - **Ruff** (`charliermarsh.ruff`) — Python linter and formatter
 - **LaTeX Workshop** (`james-yu.latex-workshop`) — LaTeX editing, compilation, and preview
 - **Verilog-HDL/SystemVerilog** (`mshr-h.veriloghdl`) — Verilog/SystemVerilog syntax, linting, and formatting via Verible
+- **Live Preview** (`ms-vscode.live-server`) — local server with live browser preview for HTML files
 
 ## Writing LaTeX in VSCode
 
